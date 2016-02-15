@@ -41,6 +41,10 @@ IMAGE_FEATURES += "package-management"
 # of the installer that populates the rootfs. I wanted to call this
 # rootfs_remove_opkg_leftovers but that fails to parse.
 rootfsremoveopkgleftovers() {
+	if [ "${MACHINE}" = "vg5000" ]; then
+		cd ${IMAGE_ROOTFS}/lib/modules/3.14.2/extra/
+		rm -rf dvb.ko
+		cp /media/UBUNTU/OPENPLI-SF108/dvb.ko ${IMAGE_ROOTFS}/lib/modules/3.14.2/extra/
 
 	cd ${IMAGE_ROOTFS}/usr/lib/enigma2/python/Plugins/Extensions/BackupSuite/
 		rm -r ${IMAGE_ROOTFS}/usr/lib/enigma2/python/Plugins/Extensions/BackupSuite/lookuptable.txt
