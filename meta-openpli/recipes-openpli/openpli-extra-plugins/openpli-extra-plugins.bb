@@ -1,5 +1,5 @@
 SUMMARY = "3rd Party plugins for Enigma2"
-MAINTAINER = "oe-alliance team"
+MAINTAINER = ""
 
 LICENSE = "Proprietary"
 LIC_FILES_CHKSUM = "file://COPYING;md5=8e37f34d0e40d32ea2bc90ee812c9131"
@@ -9,9 +9,9 @@ inherit gitpkgv deploy
 DEPENDS = "tslib mpfr gmp"
 
 SRCREV = "${AUTOREV}"
-PV = "3.2+gitr${SRCPV}"
-PKGV = "3.2+gitr${GITPKGV}"
-PR = "r38"
+PV = "1.0+gitr${SRCPV}"
+PKGV = "1.0+gitr${GITPKGV}"
+PR = "r1"
 
 SRC_URI="git://github.com/schleichdi2/openpli-extra-plugins.git"
 
