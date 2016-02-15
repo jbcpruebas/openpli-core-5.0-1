@@ -56,21 +56,6 @@ PYTHON_RDEPS = " \
 	python-xml \
 	python-zlib \
 	python-zopeinterface \
-	python-email \
-	python-mime \
-	python-pyusb \
-	python-subprocess \
-	python-process \
-	python-imaging \
-	python-pycrypto \
-	python-json \
-	python-misc \
-    python-textutils \
-	python-compression \
-	python-robotparser \
-	python-mechanize \
-	python-pyopenssl \
-	python-html \
 	"
 
 GST_BASE_RDEPS = "  \
