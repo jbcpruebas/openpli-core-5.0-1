@@ -64,7 +64,7 @@ do_deploy() {
     install -d 0755 ${DEPLOY_DIR_IPK}/${MACHINE}_3rdparty
     for i in ${THIRDPARTY_PLUGINS}; do
         if [ -f $i ]; then
-            install -m 0644 $i ${DEPLOY_DIR_IPK}/${MACHINE}_3rdparty;
+            install -m 0644 $i ${DEPLOY_DIR_IPK}/3rdparty;
         fi
     done;
     for i in ${THIRDPARTY_MACHINE_PLUGINS}; do
