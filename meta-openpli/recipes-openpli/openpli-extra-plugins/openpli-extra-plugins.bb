@@ -2,7 +2,7 @@ SUMMARY = "3rd Party plugins for Enigma2"
 MAINTAINER = ""
 
 LICENSE = "Proprietary"
-LIC_FILES_CHKSUM = "file://COPYING;md5=8e37f34d0e40d32ea2bc90ee812c9131"
+LIC_FILES_CHKSUM = "file://COPYING;md5=45de10587e108efb50c321c1affd5e00"
 
 inherit gitpkgv deploy
 
