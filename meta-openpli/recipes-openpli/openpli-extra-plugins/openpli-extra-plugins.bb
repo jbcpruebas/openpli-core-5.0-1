@@ -33,7 +33,7 @@ THIRDPARTY_PLUGINS = " \
     "
 
 THIRDPARTY_MACHINE_PLUGINS_g300 = " \
-    ${@base_contains('MACHINEBUILD', 'sf3038', 'enigma2-plugin-extensions-hbbtv-octagon_1.0_mips32el.ipk' , '', d)} \
+    ${@base_contains('MACHINEBUILD', 'g300', 'enigma2-plugin-extensions-hbbtv-octagon_1.0_mips32el.ipk' , '', d)} \
     "
 
 do_install[noexec] = "1"
