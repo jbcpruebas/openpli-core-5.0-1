@@ -16,6 +16,7 @@ OPTIONAL_PACKAGES_BROKEN = "samba"
 OPTIONAL_PACKAGES ?= ""
 OPTIONAL_BSP_PACKAGES ?= ""
 OPTIONAL_PACKAGES += " \
+	openatv-picons-meta \
 	autofs \
 	autossh \
 	ctorrent \
