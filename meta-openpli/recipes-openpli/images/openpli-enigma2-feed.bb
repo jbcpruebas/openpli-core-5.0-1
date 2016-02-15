@@ -17,6 +17,7 @@ OPTIONAL_PACKAGES ?= ""
 OPTIONAL_BSP_PACKAGES ?= ""
 OPTIONAL_PACKAGES += " \
 	openatv-picons-meta \
+	openpli-extra-plugins \
 	autofs \
 	autossh \
 	ctorrent \
