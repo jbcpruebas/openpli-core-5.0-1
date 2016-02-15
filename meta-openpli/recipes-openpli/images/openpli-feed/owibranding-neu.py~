@@ -163,13 +163,13 @@ def getAllInfo():
 		f.close()
 		model = "TWINBOX"
 	elif fileExists("/proc/stb/info/boxtype"):
-		brand = "OCTAGON"
+		brand = "BROADMEDIA"
 		f = open("/proc/stb/info/boxtype",'r')
 		procmodel = f.readline().strip()
 		f.close()
 		model = "SF3038"
 	elif fileExists("/proc/stb/info/boxtype"):
-		brand = "OCTAGON"
+		brand = "TRIPLEDOT"
 		f = open("/proc/stb/info/boxtype",'r')
 		procmodel = f.readline().strip()
 		f.close()
