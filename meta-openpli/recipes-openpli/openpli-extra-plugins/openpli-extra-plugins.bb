@@ -29,6 +29,7 @@ S = "${WORKDIR}/git"
 
 THIRDPARTY_PLUGINS = " \
 	enigma2-plugin-extensions-mediaportal_7.4.2_all.ipk \
+	enigma2-plugin-extensions-turkvod_6.0_mips32el.ipk \
     "
 
 THIRDPARTY_MACHINE_PLUGINS_g300 = " \
