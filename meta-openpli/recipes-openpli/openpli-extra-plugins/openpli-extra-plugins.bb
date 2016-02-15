@@ -38,8 +38,6 @@ do_deploy_append() {
     install -d 0755 ${DEPLOY_DIR_IPK}/${MACHINE}_3rdparty
     if [ "${TARGET_ARCH}" = "mipsel" ]; then
     	 install -m 0644 ${S}/*all.ipk ${DEPLOY_DIR_IPK}/${MACHINE}_3rdparty #|| true
-   	 install -m 0644 ${S}/*mipsel.ipk ${DEPLOY_DIR_IPK}/3rdparty #|| true
-   	 install -m 0644 ${S}/*mips32el.ipk ${DEPLOY_DIR_IPK}/3rdparty #|| true
     fi
 
     pkgdir=${DEPLOY_DIR_IPK}/3rdparty
