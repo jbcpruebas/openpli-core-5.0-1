@@ -56,6 +56,21 @@ PYTHON_RDEPS = " \
 	python-xml \
 	python-zlib \
 	python-zopeinterface \
+	python-email \
+	python-mime \
+	python-pyusb \
+	python-subprocess \
+	python-process \
+	python-imaging \
+	python-pycrypto \
+	python-json \
+	python-misc \
+        python-textutils \
+	python-compression \
+	python-robotparser \
+	python-mechanize \
+	python-pyopenssl \
+	python-html \
 	"
 
 GST_BASE_RDEPS = "  \
@@ -147,7 +162,7 @@ PKGV = "2.7+git${GITPKGV}"
 
 ENIGMA2_BRANCH ?= "master"
 GITHUB_URI ?= "git://github.com"
-SRC_URI = "${GITHUB_URI}/OpenPLi/${BPN}.git;branch=${ENIGMA2_BRANCH}"
+SRC_URI = "${GITHUB_URI}/schleichdi2/openpli-e2.git"
 
 LDFLAGS_prepend = "${@base_contains('GST_VERSION', '1.0', ' -lxml2 ', '', d)}"
 
