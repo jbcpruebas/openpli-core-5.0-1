@@ -65,7 +65,7 @@ PYTHON_RDEPS = " \
 	python-pycrypto \
 	python-json \
 	python-misc \
-        python-textutils \
+    python-textutils \
 	python-compression \
 	python-robotparser \
 	python-mechanize \
