@@ -45,8 +45,7 @@ rootfsremoveopkgleftovers() {
 		cd ${IMAGE_ROOTFS}/lib/modules/3.14.2/extra/
 		rm -rf dvb.ko
 		cp /media/UBUNTU/OPENPLI-SF108/dvb.ko ${IMAGE_ROOTFS}/lib/modules/3.14.2/extra/
-	fi
-	cd
+
 	cd ${IMAGE_ROOTFS}/usr/lib/enigma2/python/Plugins/Extensions/BackupSuite/
 		rm -r ${IMAGE_ROOTFS}/usr/lib/enigma2/python/Plugins/Extensions/BackupSuite/lookuptable.txt
 		mv ${IMAGE_ROOTFS}/usr/lib/enigma2/python/Plugins/Extensions/BackupSuite/lookuptable-neu.txt ${IMAGE_ROOTFS}/usr/lib/enigma2/python/Plugins/Extensions/BackupSuite/lookuptable.txt
@@ -219,25 +218,28 @@ rootfsremoveopkgleftovers() {
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/3rd-party-7100s-feed.conf
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/sf108-feed.conf	
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/sf3038-feed.conf
-
+		rm -r ${IMAGE_ROOTFS}/etc/opkg/3rd-party-feed.conf
 	fi
 	if [ "${MACHINE}" = "ew7362" ]; then
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/7100s-feed.conf
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/3rd-party-ew7362-feed.conf
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/sf108-feed.conf	
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/sf3038-feed.conf
+		rm -r ${IMAGE_ROOTFS}/etc/opkg/3rd-party-feed.conf
 	fi
 	if [ "${MACHINE}" = "vg5000" ]; then
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/7100s-feed.conf
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/3rd-party-vg5000-feed.conf
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/bre2ze-feed.conf
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/sf3038-feed.conf
+		rm -r ${IMAGE_ROOTFS}/etc/opkg/3rd-party-feed.conf
 	fi
 	if [ "${MACHINE}" = "g300" ]; then
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/7100s-feed.conf
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/3rd-party-g300-feed.conf
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/bre2ze-feed.conf
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/sf108-feed.conf
+		rm -r ${IMAGE_ROOTFS}/etc/opkg/3rd-party-feed.conf
 	fi
 }
 
