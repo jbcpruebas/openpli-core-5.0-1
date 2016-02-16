@@ -3,7 +3,7 @@ SECTION = "base"
 PRIORITY = "required"
 LICENSE = "CLOSED"
 require conf/license/license-close.inc
-PACKAGE_ARCH = "${MACHINEBUILD}"
+PACKAGE_ARCH = "${MACHINE}"
 
 PV = "${KV}+${SRCDATE}"
 PR = "r2"
@@ -22,8 +22,8 @@ do_compile() {
 do_install() {
     install -d ${D}/lib/modules/${KV}/extra
     install -d ${D}/${sysconfdir}/modules-load.d
-    install -m 0755 ${WORKDIR}/linuxtv.ko ${D}/lib/modules/${KV}/extra/linuxtv_${MACHINEBUILD}.ko
-    echo linuxtv_${MACHINEBUILD} >> ${D}/${sysconfdir}/modules-load.d/_${MACHINEBUILD}.conf
+    install -m 0755 ${WORKDIR}/linuxtv.ko ${D}/lib/modules/${KV}/extra/linuxtv_${MACHINE}.ko
+    echo linuxtv_${MACHINE} >> ${D}/${sysconfdir}/modules-load.d/_${MACHINE}.conf
 }
 
-FILES_${PN} += "${sysconfdir}/modules-load.d/_${MACHINEBUILD}.conf"
+FILES_${PN} += "${sysconfdir}/modules-load.d/_${MACHINE}.conf"
