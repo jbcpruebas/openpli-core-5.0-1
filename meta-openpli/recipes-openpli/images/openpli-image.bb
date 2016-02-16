@@ -82,12 +82,12 @@ rootfsremoveopkgleftovers() {
 	fi	
 	cd
 	cd ${IMAGE_ROOTFS}/usr/lib/enigma2/python/Plugins/Extensions/BackupSuite/
-		rm -r ${IMAGE_ROOTFS}/usr/lib/enigma2/python/Plugins/Extensions/BackupSuite/lookuptable.txt
+		rm -rf ${IMAGE_ROOTFS}/usr/lib/enigma2/python/Plugins/Extensions/BackupSuite/lookuptable.txt
 		mv ${IMAGE_ROOTFS}/usr/lib/enigma2/python/Plugins/Extensions/BackupSuite/lookuptable-neu.txt ${IMAGE_ROOTFS}/usr/lib/enigma2/python/Plugins/Extensions/BackupSuite/lookuptable.txt
 	cd
 
 	cd ${IMAGE_ROOTFS}/usr/share/enigma2/rc_models/
-		rm -r ${IMAGE_ROOTFS}/usr/share/enigma2/rc_models/rc_models.cfg
+		rm -rf ${IMAGE_ROOTFS}/usr/share/enigma2/rc_models/rc_models.cfg
 		mv ${IMAGE_ROOTFS}/usr/share/enigma2/rc_models/rc_models-neu.cfg ${IMAGE_ROOTFS}/usr/share/enigma2/rc_models/rc_models.cfg
 		mv ${IMAGE_ROOTFS}/usr/share/enigma2/rc_models/bre2ze-neu.png ${IMAGE_ROOTFS}/usr/share/enigma2/rc_models/bre2ze.png
 		mv ${IMAGE_ROOTFS}/usr/share/enigma2/rc_models/bre2ze-neu.xml ${IMAGE_ROOTFS}/usr/share/enigma2/rc_models/bre2ze.xml
@@ -103,27 +103,27 @@ rootfsremoveopkgleftovers() {
 
 	if [ "${MACHINE}" = "7100s" ]; then
 		mv ${IMAGE_ROOTFS}/etc/model-7100s ${IMAGE_ROOTFS}/etc/model
-		rm -r ${IMAGE_ROOTFS}/etc/model-sf3038
-		rm -r ${IMAGE_ROOTFS}/etc/model-sf108
-		rm -r ${IMAGE_ROOTFS}/etc/model-bre2ze
+		rm -rf ${IMAGE_ROOTFS}/etc/model-sf3038
+		rm -rf ${IMAGE_ROOTFS}/etc/model-sf108
+		rm -rf ${IMAGE_ROOTFS}/etc/model-bre2ze
 	fi
 	if [ "${MACHINE}" = "ew7362" ]; then
 		mv ${IMAGE_ROOTFS}/etc/model-bre2ze ${IMAGE_ROOTFS}/etc/model
-		rm -r ${IMAGE_ROOTFS}/etc/model-sf3038
-		rm -r ${IMAGE_ROOTFS}/etc/model-sf108
-		rm -r ${IMAGE_ROOTFS}/etc/model-7100s
+		rm -rf ${IMAGE_ROOTFS}/etc/model-sf3038
+		rm -rf ${IMAGE_ROOTFS}/etc/model-sf108
+		rm -rf ${IMAGE_ROOTFS}/etc/model-7100s
 	fi
 	if [ "${MACHINE}" = "vg5000" ]; then
 		mv ${IMAGE_ROOTFS}/etc/model-sf108 ${IMAGE_ROOTFS}/etc/model
-		rm -r ${IMAGE_ROOTFS}/etc/model-bre2ze
-		rm -r ${IMAGE_ROOTFS}/etc/model-sf3038
-		rm -r ${IMAGE_ROOTFS}/etc/model-7100s
+		rm -rf ${IMAGE_ROOTFS}/etc/model-bre2ze
+		rm -rf ${IMAGE_ROOTFS}/etc/model-sf3038
+		rm -rf ${IMAGE_ROOTFS}/etc/model-7100s
 	fi
 	if [ "${MACHINE}" = "g300" ]; then
 		mv ${IMAGE_ROOTFS}/etc/model-sf3038 ${IMAGE_ROOTFS}/etc/model
-		rm -r ${IMAGE_ROOTFS}/etc/model-bre2ze
-		rm -r ${IMAGE_ROOTFS}/etc/model-sf108
-		rm -r ${IMAGE_ROOTFS}/etc/model-7100s
+		rm -rf ${IMAGE_ROOTFS}/etc/model-bre2ze
+		rm -rf ${IMAGE_ROOTFS}/etc/model-sf108
+		rm -rf ${IMAGE_ROOTFS}/etc/model-7100s
 	fi
 	cd
 
@@ -242,40 +242,10 @@ rootfsremoveopkgleftovers() {
 	fi
 	cd
 	cd ${IMAGE_ROOTFS}/usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/controllers/models/
-		rm -r ${IMAGE_ROOTFS}/usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/controllers/models/owibranding.py
+		rm -rf ${IMAGE_ROOTFS}/usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/controllers/models/owibranding.py
 		mv ${IMAGE_ROOTFS}/usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/controllers/models/owibranding-neu.py ${IMAGE_ROOTFS}/usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/controllers/models/owibranding.py
 	cd
-
-
 	rm -r ${IMAGE_ROOTFS}/var/lib/opkg/lists
-	if [ "${MACHINE}" = "7100s" ]; then
-		rm -rf ${IMAGE_ROOTFS}/etc/opkg/bre2ze-feed.conf	
-		rm -rf ${IMAGE_ROOTFS}/etc/opkg/3rd-party-7100s-feed.conf
-		rm -rf ${IMAGE_ROOTFS}/etc/opkg/sf108-feed.conf	
-		rm -rf ${IMAGE_ROOTFS}/etc/opkg/sf3038-feed.conf
-		rm -rf ${IMAGE_ROOTFS}/etc/opkg/3rd-party-feed.conf
-	fi
-	if [ "${MACHINE}" = "ew7362" ]; then
-		rm -rf ${IMAGE_ROOTFS}/etc/opkg/7100s-feed.conf
-		rm -rf ${IMAGE_ROOTFS}/etc/opkg/3rd-party-ew7362-feed.conf
-		rm -rf ${IMAGE_ROOTFS}/etc/opkg/sf108-feed.conf	
-		rm -rf ${IMAGE_ROOTFS}/etc/opkg/sf3038-feed.conf
-		rm -rf ${IMAGE_ROOTFS}/etc/opkg/3rd-party-feed.conf
-	fi
-	if [ "${MACHINE}" = "vg5000" ]; then
-		rm -rf ${IMAGE_ROOTFS}/etc/opkg/7100s-feed.conf
-		rm -rf ${IMAGE_ROOTFS}/etc/opkg/3rd-party-vg5000-feed.conf
-		rm -rf ${IMAGE_ROOTFS}/etc/opkg/bre2ze-feed.conf
-		rm -rf ${IMAGE_ROOTFS}/etc/opkg/sf3038-feed.conf
-		rm -rf ${IMAGE_ROOTFS}/etc/opkg/3rd-party-feed.conf
-	fi
-	if [ "${MACHINE}" = "g300" ]; then
-		rm -rf ${IMAGE_ROOTFS}/etc/opkg/7100s-feed.conf
-		rm -rf ${IMAGE_ROOTFS}/etc/opkg/3rd-party-g300-feed.conf
-		rm -rf ${IMAGE_ROOTFS}/etc/opkg/bre2ze-feed.conf
-		rm -rf ${IMAGE_ROOTFS}/etc/opkg/sf108-feed.conf
-		rm -rf ${IMAGE_ROOTFS}/etc/opkg/3rd-party-feed.conf
-	fi
 }
 
 # Some features in image.bbclass we do NOT want, so override them
