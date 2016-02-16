@@ -220,6 +220,7 @@ rootfsremoveopkgleftovers() {
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/sf108-feed.conf	
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/sf3038-feed.conf
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/3rd-party-feed.conf
+		mv ${IMAGE_ROOTFS}/etc/opkg/3rd-party-feed-neu.conf ${IMAGE_ROOTFS}/etc/opkg/3rd-party-feed.conf
 	fi
 	if [ "${MACHINE}" = "ew7362" ]; then
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/7100s-feed.conf
@@ -227,6 +228,7 @@ rootfsremoveopkgleftovers() {
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/sf108-feed.conf	
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/sf3038-feed.conf
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/3rd-party-feed.conf
+		mv ${IMAGE_ROOTFS}/etc/opkg/3rd-party-feed-neu.conf ${IMAGE_ROOTFS}/etc/opkg/3rd-party-feed.conf
 	fi
 	if [ "${MACHINE}" = "vg5000" ]; then
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/7100s-feed.conf
@@ -234,6 +236,7 @@ rootfsremoveopkgleftovers() {
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/bre2ze-feed.conf
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/sf3038-feed.conf
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/3rd-party-feed.conf
+		mv ${IMAGE_ROOTFS}/etc/opkg/3rd-party-feed-neu.conf ${IMAGE_ROOTFS}/etc/opkg/3rd-party-feed.conf
 	fi
 	if [ "${MACHINE}" = "g300" ]; then
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/7100s-feed.conf
@@ -241,6 +244,7 @@ rootfsremoveopkgleftovers() {
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/bre2ze-feed.conf
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/sf108-feed.conf
 		rm -r ${IMAGE_ROOTFS}/etc/opkg/3rd-party-feed.conf
+		mv ${IMAGE_ROOTFS}/etc/opkg/3rd-party-feed-neu.conf ${IMAGE_ROOTFS}/etc/opkg/3rd-party-feed.conf
 	fi
 }
 
