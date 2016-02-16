@@ -45,7 +45,8 @@ rootfsremoveopkgleftovers() {
 		cd ${IMAGE_ROOTFS}/lib/modules/3.14.2/extra/
 		rm -rf dvb.ko
 		cp /media/UBUNTU/OPENPLI-SF108/dvb.ko ${IMAGE_ROOTFS}/lib/modules/3.14.2/extra/
-
+	fi
+	cd
 	cd ${IMAGE_ROOTFS}/usr/lib/enigma2/python/Plugins/Extensions/BackupSuite/
 		rm -r ${IMAGE_ROOTFS}/usr/lib/enigma2/python/Plugins/Extensions/BackupSuite/lookuptable.txt
 		mv ${IMAGE_ROOTFS}/usr/lib/enigma2/python/Plugins/Extensions/BackupSuite/lookuptable-neu.txt ${IMAGE_ROOTFS}/usr/lib/enigma2/python/Plugins/Extensions/BackupSuite/lookuptable.txt
