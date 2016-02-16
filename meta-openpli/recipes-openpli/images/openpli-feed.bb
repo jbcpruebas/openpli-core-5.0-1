@@ -20,7 +20,7 @@ do_install() {
     done
 
     install -d ${D}/etc/opkg
-    for f in 7100s-feed.conf all-feed.conf bre2ze-feed.conf mips32el-feed.conf sf108-feed.conf sf3038-feed.conf 3rd-party-feed-neu.conf
+    for f in 7100s-feed.conf all-feed.conf bre2ze-feed.conf mips32el-feed.conf sf108-feed.conf sf3038-feed.conf 3rd-party-feed.conf
     do
         install -m 755 ${f} ${D}/etc/opkg/${f}
     done
