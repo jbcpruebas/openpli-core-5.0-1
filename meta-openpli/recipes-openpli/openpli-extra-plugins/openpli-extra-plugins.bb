@@ -4,7 +4,7 @@ MAINTAINER = ""
 LICENSE = "Proprietary"
 LIC_FILES_CHKSUM = "file://COPYING;md5=45de10587e108efb50c321c1affd5e00"
 
-inherit gitpkgv deploy
+inherit gitpkgv deploy autotools pkgconfig
 
 DEPENDS = "tslib mpfr gmp"
 
