@@ -70,7 +70,6 @@ DEPENDS += " \
 	enigma2 \
 	enigma2-pliplugins \
 	enigma2-plugins \
-	openpli-extra-plugins \
 	"
 
 IMAGE_INSTALL += " \
