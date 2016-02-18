@@ -4,7 +4,6 @@ inherit image
 
 IMAGE_INSTALL = " \
 	${ROOTFS_PKGMANAGE} \
-	3rd-party-feed-configs \
 	openpli-feed \
 	openpli-settings \
 	avahi-daemon \
