@@ -1,7 +1,10 @@
 SUMMARY = "3rd Party plugins for Enigma2"
 MAINTAINER = ""
-
+SECTION = "base"
+LICENSE = "proprietary"
+PACKAGE_ARCH = "all"
 LICENSE = "Proprietary"
+
 LIC_FILES_CHKSUM = "file://COPYING;md5=45de10587e108efb50c321c1affd5e00"
 
 inherit gitpkgv deploy
@@ -86,5 +89,6 @@ do_deploy() {
         chmod 0755 $pkgdir
     fi
 }
-
+do_populate_sysroot[noexec] = "1"
+do_package_qa[noexec] = "1"
 addtask do_deploy before do_package_write after do_package_write_ipk
