@@ -41,13 +41,6 @@ IMAGE_FEATURES += "package-management"
 # of the installer that populates the rootfs. I wanted to call this
 # rootfs_remove_opkg_leftovers but that fails to parse.
 rootfsremoveopkgleftovers() {
-	if [ "${MACHINE}" = "vg5000" ]; then
-		cd ${IMAGE_ROOTFS}/lib/modules/3.14.2/extra/
-		rm -rf dvb.ko
-		cp /media/UBUNTU/OPENPLI-SF108/dvb.ko ${IMAGE_ROOTFS}/lib/modules/3.14.2/extra/
-	fi
-	cd
-	
 	if [ "${MACHINE}" = "7100s" ]; then
 		cd ${IMAGE_ROOTFS}/etc/opkg/
 		rm -rf ${IMAGE_ROOTFS}/etc/opkg/bre2ze-feed.conf	
