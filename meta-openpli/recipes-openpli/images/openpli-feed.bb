@@ -14,7 +14,7 @@ S = "${WORKDIR}"
 
 do_install() {
     install -d ${D}/etc/
-    for f in model-7100s model-sf3038 model-bre2ze model-sf108
+    for f in model-7100s model-sf3038 model-sf108
     do
         install -m 755 ${f} ${D}/etc/${f}
     done
