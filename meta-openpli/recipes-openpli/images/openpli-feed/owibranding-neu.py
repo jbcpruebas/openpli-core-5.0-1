@@ -151,12 +151,6 @@ def getAllInfo():
 		f.close()
 		model = procmodel.upper().replace("GBQUAD", "Quad").replace("PLUS", " Plus")
 	elif fileExists("/proc/stb/info/boxtype"):
-		brand = "WWIO"
-		f = open("/proc/stb/info/boxtype",'r')
-		procmodel = f.readline().strip()
-		f.close()
-		model = "BRE2ZE"
-	elif fileExists("/proc/stb/info/boxtype"):
 		brand = "CERYON"
 		f = open("/proc/stb/info/boxtype",'r')
 		procmodel = f.readline().strip()
@@ -398,8 +392,6 @@ def getAllInfo():
 		remote = procmodel.replace(" ", "")
 	elif procmodel == "vg2000":
 		remote = "xcombo"
-	elif procmodel == "ew7362":
-		remote = "ew7362"
 	elif procmodel == "7100s":
 		remote = "7100s"
 	elif procmodel == "vg5000":
