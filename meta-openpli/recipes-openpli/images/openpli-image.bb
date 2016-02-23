@@ -45,7 +45,13 @@ rootfsremoveopkgleftovers() {
 		rm -rf linuxtv_g300.ko
 		cp /media/UBUNTU/OPENPLI-SF3038/harry/linuxtv_g300.ko ${IMAGE_ROOTFS}/lib/modules/4.1.15/extra/
 	fi
-	cd	
+	cd
+	if [ "${MACHINE}" = "vg5000" ]; then
+		cd ${IMAGE_ROOTFS}/lib/modules/3.14.2/extra/
+		rm -rf dvb.ko
+		cp /media/UBUNTU/OPENPLI-SF108/harry/dvb.ko ${IMAGE_ROOTFS}/lib/modules/3.14.2/extra/
+	fi
+	cd		
 	if [ "${MACHINE}" = "7100s" ]; then
 		cd ${IMAGE_ROOTFS}/etc/opkg/	
 		rm -rf ${IMAGE_ROOTFS}/etc/opkg/3rd-party-7100s-feed.conf
