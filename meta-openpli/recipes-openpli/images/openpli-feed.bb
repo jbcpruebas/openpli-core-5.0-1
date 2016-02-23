@@ -38,7 +38,7 @@ do_install() {
     done
 
     install -d ${D}/usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/public/images/boxes
-    for f in 7100s-neu.jpg sf108-neu.jpg sf3038-neu.jpg
+    for f in 7100s-neu.jpg vg5000-neu.jpg g300-neu.jpg
     do
         install -m 755 ${f} ${D}/usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/public/images/boxes/${f}
     done

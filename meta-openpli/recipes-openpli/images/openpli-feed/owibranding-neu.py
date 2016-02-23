@@ -150,24 +150,6 @@ def getAllInfo():
 		procmodel = f.readline().strip()
 		f.close()
 		model = procmodel.upper().replace("GBQUAD", "Quad").replace("PLUS", " Plus")
-	elif fileExists("/proc/stb/info/boxtype"):
-		brand = "CERYON"
-		f = open("/proc/stb/info/boxtype",'r')
-		procmodel = f.readline().strip()
-		f.close()
-		model = "TWINBOX"
-	elif fileExists("/proc/stb/info/boxtype"):
-		brand = "OCTAGON"
-		f = open("/proc/stb/info/boxtype",'r')
-		procmodel = f.readline().strip()
-		f.close()
-		model = "SF3038"
-	elif fileExists("/proc/stb/info/boxtype"):
-		brand = "OCTAGON"
-		f = open("/proc/stb/info/boxtype",'r')
-		procmodel = f.readline().strip()
-		f.close()
-		model = "SF108"
 	elif fileExists("/proc/stb/info/vumodel"):
 		brand = "Vu+"
 		f = open("/proc/stb/info/vumodel",'r')
@@ -310,6 +292,20 @@ def getAllInfo():
 			model = "enfinityX combo plus"
 			procmodel = "vg2000"
 
+	if fileExists("/etc/model"):
+		f = open("/etc/model",'r')
+		model = f.readline().strip().upper()
+		if model.startswith("OCTAGON"):
+			brand = ""
+			procmodel = "vg5000"
+		elif model.startswith("Octagon"):
+			brand = ""
+			procmodel = "g300"
+		elif model.startswith("Twinboxlcd"):
+			brand = ""
+			procmodel = "7100s"
+
+
 	type = procmodel
 	if type in ("et9000", "et9100", "et9200", "et9500"):
 		type = "et9x00"
@@ -392,12 +388,12 @@ def getAllInfo():
 		remote = procmodel.replace(" ", "")
 	elif procmodel == "vg2000":
 		remote = "xcombo"
+	elif procmodel == "vg5000":
+		remote = "sf108"
+	elif procmodel == "g300":
+		remote = "sf3038"
 	elif procmodel == "7100s":
 		remote = "7100s"
-	elif procmodel == "vg5000":
-		remote = "vg5000"
-	elif procmodel == "g300":
-		remote = "g300"
 
 
 	elif procmodel == "dm8000" and orgdream:
