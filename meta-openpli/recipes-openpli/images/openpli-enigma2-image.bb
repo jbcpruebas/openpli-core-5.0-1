@@ -65,7 +65,6 @@ ENIGMA2_PLUGINS = " \
 	${@base_contains('OPENPLI_FEATURES', 'dvd', 'enigma2-plugin-extensions-cdinfo enigma2-plugin-extensions-dvdplayer', '', d)} \
 	${@base_contains('OPENPLI_FEATURES', 'fan', 'enigma2-plugin-systemplugins-tempfancontrol', '', d)} \
 	${@base_contains("MACHINE", "g300", "enigma2-plugin-extensions-socketmmi", "", d)} \	
-	${@base_contains("MACHINE", "vg5000", "enigma2-plugin-extensions-ciplushelper", "", d)} \	
 	"
 
 DEPENDS += " \
