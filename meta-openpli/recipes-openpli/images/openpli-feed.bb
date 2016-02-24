@@ -56,7 +56,7 @@ do_install() {
     done
 
     install -d ${D}/usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/controllers/models
-    for f in owibranding-neu.py
+    for f in owibranding-7100s.py owibranding-sf108.py owibranding-sf3038.py
     do
         install -m 755 ${f} ${D}/usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/controllers/models/${f}
     done

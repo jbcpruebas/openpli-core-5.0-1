@@ -117,7 +117,7 @@ def tpm_check():
 def getAllInfo():
 	info = {}
 
-	brand = "unknown"
+	brand = ""
 	model = "unknown"
 	procmodel = "unknown"
 	orgdream = 0
@@ -144,6 +144,15 @@ def getAllInfo():
 		procmodel = f.readline().strip()
 		f.close()
 		model = procmodel.lower()
+	elif fileExists("/etc/model"):
+		brand = ""
+		f = open("/etc/model",'r')
+		procmodel = f.readline().strip()
+		f.close()
+		model = procmodel.upper()
+		procmodel = "7100s"
+
+
 	elif fileExists("/proc/stb/info/gbmodel"):
 		brand = "GigaBlue"
 		f = open("/proc/stb/info/gbmodel",'r')
@@ -292,20 +301,6 @@ def getAllInfo():
 			model = "enfinityX combo plus"
 			procmodel = "vg2000"
 
-	if fileExists("/etc/model"):
-		f = open("/etc/model",'r')
-		model = f.readline().strip().upper()
-		if model.startswith("OCTAGON"):
-			brand = ""
-			procmodel = "vg5000"
-		elif model.startswith("Octagon"):
-			brand = ""
-			procmodel = "g300"
-		elif model.startswith("Twinboxlcd"):
-			brand = ""
-			procmodel = "7100s"
-
-
 	type = procmodel
 	if type in ("et9000", "et9100", "et9200", "et9500"):
 		type = "et9x00"
@@ -388,10 +383,6 @@ def getAllInfo():
 		remote = procmodel.replace(" ", "")
 	elif procmodel == "vg2000":
 		remote = "xcombo"
-	elif procmodel == "vg5000":
-		remote = "sf108"
-	elif procmodel == "g300":
-		remote = "sf3038"
 	elif procmodel == "7100s":
 		remote = "7100s"
 
