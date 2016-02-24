@@ -9,7 +9,7 @@ SRCREV = "${AUTOREV}"
 
 SRC_URI = "file://*"
 
-FILES_${PN} = "/etc/enigma2/* /etc/tuxbox/*"
+FILES_${PN} = "/etc/enigma2/*"
 S = "${WORKDIR}"
 
 do_install() {
@@ -17,12 +17,6 @@ do_install() {
     for f in blacklist bouquets* lamedb satellites.xml userbouquet* whitelist
     do
         install -m 644 ${f} ${D}/etc/enigma2/${f}
-    done
-
-    install -d ${D}/etc/tuxbox
-    for f in satellites.xml
-    do
-        install -m 644 ${f} ${D}/etc/tuxbox/${f}
     done
 }
 
