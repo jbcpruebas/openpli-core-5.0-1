@@ -1,7 +1,7 @@
 # We know about rtc
 include conf/machine/include/build-extras.inc
 
-MACHINE_FEATURES += "colorlcd220 lcd220 "
+MACHINE_FEATURES += "colorlcd400 lcd220 "
 
 MACHINE_EXTRA_RRECOMMENDS += " \
     ceryon-lcd \
