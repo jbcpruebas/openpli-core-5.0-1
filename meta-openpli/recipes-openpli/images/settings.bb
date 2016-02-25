@@ -14,7 +14,7 @@ S = "${WORKDIR}"
 
 do_install() {
     install -d ${D}/etc/enigma2
-    for f in blacklist bouquets* lamedb satellites.xml userbouquet* whitelist
+    for f in blacklist bouquets* lamedb userbouquet* whitelist
     do
         install -m 644 ${f} ${D}/etc/enigma2/${f}
     done
