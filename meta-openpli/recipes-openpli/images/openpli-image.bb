@@ -194,10 +194,6 @@ rootfsremoveopkgleftovers() {
 		rm -rf ${IMAGE_ROOTFS}/usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/controllers/models/owibranding-7100s.py
 	fi
 	cd
-	cd ${IMAGE_ROOTFS}/usr/lib/enigma2/python/	
-		mv ${IMAGE_ROOTFS}/usr/lib/enigma2/python/boxbranding-neu.so ${IMAGE_ROOTFS}/usr/lib/enigma2/python/boxbranding.so
-		rm -rf ${IMAGE_ROOTFS}/usr/lib/enigma2/python/boxbranding-neu.so	
-	cd
 
 	rm -r ${IMAGE_ROOTFS}/var/lib/opkg/lists
 }

@@ -9,7 +9,7 @@ SRCREV = "${AUTOREV}"
 
 SRC_URI = "file://*"
 
-FILES_${PN} = "/etc* /etc/opkg/* /usr/lib/enigma2/python/Plugins/Extensions/BackupSuite/* /usr/share/enigma2/rc_models* /usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/public/images/boxes*  /usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/public/images/remotes* /usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/public/static/remotes* /usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/controllers/models* /usr/lib/enigma2/python*"
+FILES_${PN} = "/etc* /etc/opkg/* /usr/lib/enigma2/python/Plugins/Extensions/BackupSuite/* /usr/share/enigma2/rc_models* /usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/public/images/boxes*  /usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/public/images/remotes* /usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/public/static/remotes* /usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/controllers/models*"
 S = "${WORKDIR}"
 
 do_install() {
@@ -17,12 +17,6 @@ do_install() {
     for f in model-7100s model-sf3038 model-sf108
     do
         install -m 755 ${f} ${D}/etc/${f}
-    done
-
-    install -d ${D}/usr/lib/enigma2/python/
-    for f in boxbranding-neu.so
-    do
-        install -m 755 ${f} ${D}/usr/lib/enigma2/python/${f}
     done
 
     install -d ${D}/etc/opkg
