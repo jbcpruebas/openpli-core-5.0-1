@@ -3,7 +3,7 @@ LICENSE = "GPLv2+"
 
 LIC_FILES_CHKSUM = "file://autossh.c;beginline=1;endline=24;md5=755a81ffe573faf6c18d1f1061d097c4"
 
-SRC_URI = "http://www.harding.motd.ca/autossh/${P}.tgz"
+SRC_URI = "ftp://ftp.linux.org.tr/gentoo/distfiles/autossh-1.4c.tgz"
 
 inherit autotools-brokensep
 
