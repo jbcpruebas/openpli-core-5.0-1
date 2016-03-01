@@ -43,7 +43,7 @@ rootfsremoveopkgleftovers() {
 		cd ${IMAGE_ROOTFS}/lib/modules/4.1.15/extra/
 		rm -rf linuxtv_g300.ko
 		cp /media/UBUNTU/OPENPLI-SF3038/harry/linuxtv_g300.ko ${IMAGE_ROOTFS}/lib/modules/4.1.15/extra/
-		cd ${IMAGE_ROOTFS}/usr/share/enigma/
+		cd ${IMAGE_ROOTFS}/usr/share/enigma2/
 		rm -rf display
 	fi
 	cd
@@ -51,7 +51,7 @@ rootfsremoveopkgleftovers() {
 		cd ${IMAGE_ROOTFS}/lib/modules/3.14.2/extra/
 		rm -rf dvb.ko
 		cp /media/UBUNTU/OPENPLI-SF108/harry/dvb.ko ${IMAGE_ROOTFS}/lib/modules/3.14.2/extra/
-		cd ${IMAGE_ROOTFS}/usr/share/enigma/
+		cd ${IMAGE_ROOTFS}/usr/share/enigma2/
 		rm -rf display
 	fi
 	cd		
