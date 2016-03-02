@@ -48,9 +48,6 @@ rootfsremoveopkgleftovers() {
 	fi
 	cd
 	if [ "${MACHINE}" = "vg5000" ]; then
-		cd ${IMAGE_ROOTFS}/lib/modules/3.14.2/extra/
-		rm -rf dvb.ko
-		cp /media/UBUNTU/OPENPLI-SF108/harry/dvb.ko ${IMAGE_ROOTFS}/lib/modules/3.14.2/extra/
 		cd ${IMAGE_ROOTFS}/usr/share/enigma2/
 		rm -rf display
 	fi
