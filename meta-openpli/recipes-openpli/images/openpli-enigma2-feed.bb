@@ -22,6 +22,7 @@ OPTIONAL_PACKAGES += " \
 	ctorrent \
 	cups \
 	djmount \
+	dvb-apps \
 	dvbsnoop \
 	dvdfs \
 	evtest \

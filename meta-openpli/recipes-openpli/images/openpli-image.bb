@@ -76,17 +76,6 @@ rootfsremoveopkgleftovers() {
 		mv ${IMAGE_ROOTFS}/usr/lib/enigma2/python/Plugins/Extensions/BackupSuite/lookuptable-neu.txt ${IMAGE_ROOTFS}/usr/lib/enigma2/python/Plugins/Extensions/BackupSuite/lookuptable.txt
 	cd
 
-	cd ${IMAGE_ROOTFS}/usr/share/enigma2/rc_models/
-		rm -rf ${IMAGE_ROOTFS}/usr/share/enigma2/rc_models/rc_models.cfg
-		mv ${IMAGE_ROOTFS}/usr/share/enigma2/rc_models/rc_models-neu.cfg ${IMAGE_ROOTFS}/usr/share/enigma2/rc_models/rc_models.cfg
-		mv ${IMAGE_ROOTFS}/usr/share/enigma2/rc_models/red1-neu.png ${IMAGE_ROOTFS}/usr/share/enigma2/rc_models/red1.png
-		mv ${IMAGE_ROOTFS}/usr/share/enigma2/rc_models/red1-neu.xml ${IMAGE_ROOTFS}/usr/share/enigma2/rc_models/red1.xml
-		mv ${IMAGE_ROOTFS}/usr/share/enigma2/rc_models/sf108-neu.png ${IMAGE_ROOTFS}/usr/share/enigma2/rc_models/sf108.png
-		mv ${IMAGE_ROOTFS}/usr/share/enigma2/rc_models/sf108-neu.xml ${IMAGE_ROOTFS}/usr/share/enigma2/rc_models/sf108.xml
-		mv ${IMAGE_ROOTFS}/usr/share/enigma2/rc_models/sf3038-neu.png ${IMAGE_ROOTFS}/usr/share/enigma2/rc_models/sf3038.png
-		mv ${IMAGE_ROOTFS}/usr/share/enigma2/rc_models/sf3038-neu.xml ${IMAGE_ROOTFS}/usr/share/enigma2/rc_models/sf3038.xml
-	cd
-
 	cd ${IMAGE_ROOTFS}/etc/
 
 	if [ "${MACHINE}" = "7100s" ]; then

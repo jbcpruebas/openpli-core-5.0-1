@@ -9,7 +9,7 @@ SRCREV = "${AUTOREV}"
 
 SRC_URI = "file://*"
 
-FILES_${PN} = "/etc* /etc/opkg/* /usr/lib/enigma2/python/Plugins/Extensions/BackupSuite/* /usr/share/enigma2/rc_models* /usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/public/images/boxes*  /usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/public/images/remotes* /usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/public/static/remotes* /usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/controllers/models*"
+FILES_${PN} = "/etc* /etc/opkg/* /usr/lib/enigma2/python/Plugins/Extensions/BackupSuite/* /usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/public/images/boxes*  /usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/public/images/remotes* /usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/public/static/remotes* /usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/controllers/models*"
 S = "${WORKDIR}"
 
 do_install() {
@@ -29,12 +29,6 @@ do_install() {
     for f in lookuptable-neu.txt
     do
         install -m 755 ${f} ${D}/usr/lib/enigma2/python/Plugins/Extensions/BackupSuite/${f}
-    done
-
-    install -d ${D}/usr/share/enigma2/rc_models
-    for f in red1-neu.png red1-neu.xml rc_models-neu.cfg sf108-neu.xml sf3038-neu.xml sf108-neu.png sf3038-neu.png
-    do
-        install -m 755 ${f} ${D}/usr/share/enigma2/rc_models/${f}
     done
 
     install -d ${D}/usr/lib/enigma2/python/Plugins/Extensions/OpenWebif/public/images/boxes
