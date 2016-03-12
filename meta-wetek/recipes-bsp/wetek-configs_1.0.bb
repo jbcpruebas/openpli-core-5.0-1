@@ -5,7 +5,7 @@ LICENSE = "GPLv2"
 
 require conf/license/license-gplv2.inc
 
-PR = "r1"
+PR = "r2"
 
 #INHIBIT_DEFAULT_DEPS = "1"
 

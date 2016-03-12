@@ -15,10 +15,10 @@ inherit autotools-brokensep pythonnative
 #SRCREV = "${AUTOREV}"
 #PV = "1.0+git${SRCPV}"
 #PKGV = "1.0+git${GITPKGV}"
-PV = "1.1"
+PV = "1.2"
 PKGV = "1.0"
 
-SRC_URI = "file://wetek-plugin-rcuselect-20160208.tgz"
+SRC_URI = "file://wetek-plugin-rcuselect-20160224.tgz"
 
 S = "${WORKDIR}/RCUSelect"
 
