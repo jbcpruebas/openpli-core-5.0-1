@@ -7,7 +7,7 @@ require conf/license/license-close.inc
 PV = "${KV}+${SRCDATE}"
 PR = "r0"
 
-SRC_URI = "http://source.mynonpublic.com/tripledot/${MACHINE}-drivers-${KV}-${SRCDATE}.zip"
+SRC_URI = "http://source.mynonpublic.com/tripledot/vg5000-drivers-3.14.2-20160317.zip"
 
 S = "${WORKDIR}"
 
