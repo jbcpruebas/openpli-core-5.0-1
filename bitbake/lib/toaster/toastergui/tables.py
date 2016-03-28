@@ -158,7 +158,7 @@ class LayersTable(ToasterTable):
         {% endwith %}
         '''
 
-        self.add_column(title="Revision",
+        self.add_column(title="Git revision",
                         help_text="The Git branch, tag or commit. For the layers from the OpenEmbedded layer source, the revision is always the branch compatible with the Yocto Project version you selected for this project",
                         static_data_name="revision",
                         static_data_template=revision_template)
@@ -183,8 +183,8 @@ class LayersTable(ToasterTable):
                         static_data_name="dependencies",
                         static_data_template=deps_template)
 
-        self.add_column(title="Add | Delete",
-                        help_text="Add or delete layers to / from your project",
+        self.add_column(title="Add | Remove",
+                        help_text="Add or remove layers to / from your project",
                         hideable=False,
                         filter_name="in_current_project",
                         static_data_name="add-del-layers",
@@ -269,7 +269,7 @@ class MachinesTable(ToasterTable):
                         static_data_template=layer_link_template,
                         orderable=True)
 
-        self.add_column(title="Revision",
+        self.add_column(title="Git revision",
                         help_text="The Git branch, tag or commit. For the layers from the OpenEmbedded layer source, the revision is always the branch compatible with the Yocto Project version you selected for this project",
                         hidden=True,
                         field_name="layer_version__get_vcs_reference")
@@ -428,7 +428,7 @@ class RecipesTable(ToasterTable):
                         orderable=True,
                         field_name="license")
 
-        self.add_column(title="Revision",
+        self.add_column(title="Git revision",
                         hidden=True,
                         field_name="layer_version__get_vcs_reference")
 
@@ -549,7 +549,10 @@ class ImageRecipesTable(RecipesTable):
     def setup_queryset(self, *args, **kwargs):
         super(ImageRecipesTable, self).setup_queryset(*args, **kwargs)
 
-        self.queryset = self.queryset.filter(is_image=True)
+        custom_image_recipes = CustomImageRecipe.objects.filter(
+                project=kwargs['pid'])
+        self.queryset = self.queryset.filter(
+                Q(is_image=True) & ~Q(pk__in=custom_image_recipes))
         self.queryset = self.queryset.order_by(self.default_orderby)
 
 
@@ -589,12 +592,19 @@ class NewCustomImagesTable(ImageRecipesTable):
         self.queryset = self.queryset.filter(is_image=True)
 
     def setup_columns(self, *args, **kwargs):
+
+        name_link_template = '''
+        <a href="{% url 'recipedetails' extra.pid data.pk %}">{{data.name}}</a>
+        '''
+
         self.add_column(title="Image recipe",
                         help_text="When you build an image recipe, you get an "
                                   "image: a root file system you can"
                                   "deploy to a machine",
                         hideable=False,
                         orderable=True,
+                        static_data_name="name",
+                        static_data_template=name_link_template,
                         field_name="name")
 
         super(ImageRecipesTable, self).setup_columns(*args, **kwargs)
@@ -617,6 +627,7 @@ class SoftwareRecipesTable(RecipesTable):
         super(SoftwareRecipesTable, self).setup_queryset(*args, **kwargs)
 
         self.queryset = self.queryset.filter(is_image=False)
+        self.queryset = self.queryset.order_by(self.default_orderby)
 
 
     def setup_columns(self, *args, **kwargs):
@@ -653,7 +664,9 @@ class PackagesTable(ToasterTable):
                                       ).last()
 
         if target:
-            return target.build.package_set.all()
+            pkgs = target.target_installed_package_set.values_list('package',
+                                                                   flat=True)
+            return Package.objects.filter(pk__in=pkgs)
 
         # Target/recipe never successfully built so empty queryset
         return Package.objects.none()

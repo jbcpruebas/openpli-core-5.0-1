@@ -480,7 +480,12 @@ def builddashboard( request, build_id ):
             if ( ndx < 0 ):
                 ndx = 0;
             f = i.file_name[ ndx + 1: ]
-            imageFiles.append({ 'id': i.id, 'path': f, 'size' : i.file_size })
+            imageFiles.append({
+                'id': i.id,
+                'path': f,
+                'size': i.file_size,
+                'suffix': i.suffix
+            })
         if t.is_image and (len(imageFiles) <= 0 or len(t.license_manifest_path) <= 0):
             targetHasNoImages = True
         elem[ 'imageFiles' ] = imageFiles
@@ -1000,11 +1005,11 @@ def tasks_common(request, build_id, variant, task_anchor):
         object_search_display="disk I/O data"
         filter_search_display="tasks"
         (pagesize, orderby) = _get_parameters_values(request, 25, 'disk_io:-')
-    elif 'cpuusage'  == variant:
-        title_variant='CPU usage'
-        object_search_display="CPU usage data"
+    elif 'cputime'  == variant:
+        title_variant='CPU time'
+        object_search_display="CPU time data"
         filter_search_display="tasks"
-        (pagesize, orderby) = _get_parameters_values(request, 25, 'cpu_usage:-')
+        (pagesize, orderby) = _get_parameters_values(request, 25, 'cpu_time_system:-')
     else :
         title_variant='Tasks'
         object_search_display="tasks"
@@ -1156,23 +1161,38 @@ def tasks_common(request, build_id, variant, task_anchor):
         del tc_time['clclass']
         tc_cache['hidden']='1'
 
-    tc_cpu={
-        'name':'CPU usage',
-        'qhelp':'The percentage of task CPU utilization',
-        'orderfield': _get_toggle_order(request, "cpu_usage", True),
-        'ordericon':_get_toggle_order_icon(request, "cpu_usage"),
-        'orderkey' : 'cpu_usage',
-        'clclass': 'cpu_used', 'hidden' : 1,
+    tc_cpu_time_system={
+        'name':'System CPU time (secs)',
+        'qhelp':'Total amount of time spent executing in kernel mode, in ' +
+                'seconds. Note that this time can be greater than the task ' +
+                'time due to parallel execution.',
+        'orderfield': _get_toggle_order(request, "cpu_time_system", True),
+        'ordericon':_get_toggle_order_icon(request, "cpu_time_system"),
+        'orderkey' : 'cpu_time_system',
+        'clclass': 'cpu_time_system', 'hidden' : 1,
     }
 
-    if  'cpuusage' == variant:
-        tc_cpu['hidden']='0'
-        del tc_cpu['clclass']
+    tc_cpu_time_user={
+        'name':'User CPU time (secs)',
+        'qhelp':'Total amount of time spent executing in user mode, in seconds. ' +
+                'Note that this time can be greater than the task time due to ' +
+                'parallel execution.',
+        'orderfield': _get_toggle_order(request, "cpu_time_user", True),
+        'ordericon':_get_toggle_order_icon(request, "cpu_time_user"),
+        'orderkey' : 'cpu_time_user',
+        'clclass': 'cpu_time_user', 'hidden' : 1,
+    }
+
+    if 'cputime' == variant:
+        tc_cpu_time_system['hidden']='0'
+        tc_cpu_time_user['hidden']='0'
+        del tc_cpu_time_system['clclass']
+        del tc_cpu_time_user['clclass']
         tc_cache['hidden']='1'
 
     tc_diskio={
-        'name':'Disk I/O (ms)',
-        'qhelp':'Number of miliseconds the task spent doing disk input and output',
+        'name':'Disk I/O (bytes)',
+        'qhelp':'Number of bytes written to and read from the disk during the task',
         'orderfield': _get_toggle_order(request, "disk_io", True),
         'ordericon':_get_toggle_order_icon(request, "disk_io"),
         'orderkey' : 'disk_io',
@@ -1203,7 +1223,8 @@ def tasks_common(request, build_id, variant, task_anchor):
                     tc_outcome,
                     tc_cache,
                     tc_time,
-                    tc_cpu,
+                    tc_cpu_time_system,
+                    tc_cpu_time_user,
                     tc_diskio,
                 ]}
 
@@ -1224,9 +1245,8 @@ def buildtime(request, build_id):
 def diskio(request, build_id):
     return tasks_common(request, build_id, 'diskio', '')
 
-def cpuusage(request, build_id):
-    return tasks_common(request, build_id, 'cpuusage', '')
-
+def cputime(request, build_id):
+    return tasks_common(request, build_id, 'cputime', '')
 
 def recipes(request, build_id):
     template = 'recipes.html'
@@ -2185,8 +2205,11 @@ if True:
         layers_added = [];
 
         # Rudimentary check for any possible html tags
-        if "<" in request.POST:
-          return HttpResponse(jsonfilter({"error": "Invalid character <"}), content_type = "application/json")
+        for val in request.POST.values():
+            if "<" in val:
+                return HttpResponse(jsonfilter(
+                    {"error": "Invalid character <"}),
+                    content_type="application/json")
 
         prj = Project.objects.get(pk=request.POST['project_id'])
 
@@ -2384,7 +2407,7 @@ if True:
 
             # create layer 'Custom layer' and verion if needed
             layer = Layer.objects.get_or_create(
-                name="toaster-custom-images",
+                name=CustomImageRecipe.LAYER_NAME,
                 summary="Layer for custom recipes",
                 vcs_url="file:///toaster_created_layer")[0]
 
@@ -2569,9 +2592,6 @@ if True:
             else:
                 all_current_packages = recipe.get_all_packages()
 
-                # TODO currently we ignore packgegroups as we don't have a
-                # way to deal with them yet.
-
                 # Dependencies for package which aren't satisfied by the
                 # current packages in the custom image recipe
                 deps = package.package_dependencies_source.annotate(
@@ -2579,8 +2599,10 @@ if True:
                     pk=F('depends_on__pk'),
                     size=F('depends_on__size'),
                 ).values("name", "pk", "size").filter(
-                    ~Q(pk__in=all_current_packages) &
-                    Q(dep_type=Package_Dependency.TYPE_TRDEPENDS)
+                    # There are two depends types we don't know why
+                    (Q(dep_type=Package_Dependency.TYPE_TRDEPENDS) |
+                    Q(dep_type=Package_Dependency.TYPE_RDEPENDS)) &
+                    ~Q(pk__in=all_current_packages)
                 )
 
                 # Reverse dependencies which are needed by packages that are
@@ -2645,6 +2667,13 @@ if True:
                                            name=dep.depends_on.name)
 
                         recipe.includes_set.add(cust_package)
+                        try:
+                            # when adding the pre-requisite package make sure it's not in the
+                            #   excluded list from a prior removal.
+                            recipe.excludes_set.remove(cust_package)
+                        except Package.DoesNotExist:
+                            #   Don't care if the package had never been excluded
+                            pass
                     except:
                         logger.warning("Could not add package's suggested"
                                        "dependencies to the list")

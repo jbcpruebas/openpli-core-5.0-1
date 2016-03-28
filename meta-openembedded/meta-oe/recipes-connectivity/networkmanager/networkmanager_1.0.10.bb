@@ -7,9 +7,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=cbbffd568227ada506640fe950a4823b \
                     file://docs/api/html/license.html;md5=51d7fb67bde992e58533a8481cee070b \
 "
 
-DEPENDS = "libnl dbus dbus-glib libgudev util-linux libndp libnewt"
+DEPENDS = "libnl dbus dbus-glib libgudev util-linux libndp libnewt polkit"
 
-inherit gnomebase gettext systemd bluetooth
+inherit gnomebase gettext systemd bluetooth bash-completion vala gobject-introspection
 
 SRC_URI = " \
     ${GNOME_MIRROR}/NetworkManager/${@gnome_verdir("${PV}")}/NetworkManager-${PV}.tar.xz \
@@ -34,6 +34,10 @@ EXTRA_OECONF = " \
     --with-tests \
     --with-nmtui=yes \
 "
+
+do_compile_prepend() {
+        export GIR_EXTRA_LIBS_PATH="${B}/libnm-util/.libs"
+}
 
 PACKAGECONFIG ??= "nss ifupdown netconfig dhclient dnsmasq \
     ${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd','consolekit',d)} \
@@ -61,7 +65,7 @@ PACKAGECONFIG[ifupdown] = "--enable-ifupdown,--disable-ifupdown"
 PACKAGECONFIG[netconfig] = "--with-netconfig=yes,--with-netconfig=no"
 PACKAGECONFIG[qt4-x11-free] = "--enable-qt,--disable-qt,qt4-x11-free"
 
-PACKAGES =+ "libnmutil libnmglib libnmglib-vpn ${PN}-tests ${PN}-bash-completion \
+PACKAGES =+ "libnmutil libnmglib libnmglib-vpn ${PN}-tests \
   ${PN}-nmtui ${PN}-nmtui-doc \
   ${PN}-adsl \
 "
@@ -101,8 +105,6 @@ FILES_${PN}-dev += " \
 FILES_${PN}-tests = " \
     ${bindir}/nm-online \
 "
-
-FILES_${PN}-bash-completion = "${datadir}/bash-completion"
 
 FILES_${PN}-nmtui = " \
     ${bindir}/nmtui \

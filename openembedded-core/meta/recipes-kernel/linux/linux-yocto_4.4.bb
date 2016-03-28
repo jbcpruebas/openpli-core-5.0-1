@@ -11,20 +11,20 @@ KBRANCH_qemux86  ?= "standard/base"
 KBRANCH_qemux86-64 ?= "standard/base"
 KBRANCH_qemumips64 ?= "standard/mti-malta64"
 
-SRCREV_machine_qemuarm ?= "fae04a40c8bcdf27b237d7d288ddcad71976a7b3"
-SRCREV_machine_qemuarm64 ?= "0194c765861157b95de80fa7c27ebb6b51c16dd6"
-SRCREV_machine_qemumips ?= "beedcf740b175cdd0ecc7a8c473c0b518f329c33"
-SRCREV_machine_qemuppc ?= "0194c765861157b95de80fa7c27ebb6b51c16dd6"
-SRCREV_machine_qemux86 ?= "0194c765861157b95de80fa7c27ebb6b51c16dd6"
-SRCREV_machine_qemux86-64 ?= "0194c765861157b95de80fa7c27ebb6b51c16dd6"
-SRCREV_machine_qemumips64 ?= "25c3d2617df1947b3d69e480e88ba75881c7ca71"
-SRCREV_machine ?= "0194c765861157b95de80fa7c27ebb6b51c16dd6"
-SRCREV_meta ?= "4940c6e551c1eea41a5dbc69a90b23d5f835fa5b"
+SRCREV_machine_qemuarm ?= "861adc8d32fbb0c1f14fb9b7b67222ab711473a1"
+SRCREV_machine_qemuarm64 ?= "3d2455f9da30f923c6bd69014fad4cc4ea738be6"
+SRCREV_machine_qemumips ?= "0b21ee5897cc49c94f42fca9cea4665f76ae7e0e"
+SRCREV_machine_qemuppc ?= "3d2455f9da30f923c6bd69014fad4cc4ea738be6"
+SRCREV_machine_qemux86 ?= "3d2455f9da30f923c6bd69014fad4cc4ea738be6"
+SRCREV_machine_qemux86-64 ?= "3d2455f9da30f923c6bd69014fad4cc4ea738be6"
+SRCREV_machine_qemumips64 ?= "8b25338045fdb88a9cdff808003102643f03083e"
+SRCREV_machine ?= "3d2455f9da30f923c6bd69014fad4cc4ea738be6"
+SRCREV_meta ?= "ce5b35bc76bb65d93d0897535c088f51dae4048b"
 
 SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;name=machine;branch=${KBRANCH}; \
            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
 
-LINUX_VERSION ?= "4.4.1"
+LINUX_VERSION ?= "4.4.3"
 
 PV = "${LINUX_VERSION}+git${SRCPV}"
 
@@ -40,3 +40,5 @@ KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
 KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
 KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
 KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
+
+SRC_URI_append = " file://0001-Fix-qemux86-pat-issue.patch"

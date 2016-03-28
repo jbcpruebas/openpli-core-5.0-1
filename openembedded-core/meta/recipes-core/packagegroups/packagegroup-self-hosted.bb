@@ -45,9 +45,11 @@ RDEPENDS_packagegroup-self-hosted-host-tools = "\
     mc-helpers-perl \
     mc-helpers-python \
     parted \
-    pseudo \
+    ${PSEUDO} \
     screen \
     "
+PSEUDO = "pseudo"
+PSEUDO_libc-musl = ""
 
 RRECOMMENDS_packagegroup-self-hosted-host-tools = "\
     kernel-module-tun \
@@ -189,7 +191,6 @@ RDEPENDS_packagegroup-self-hosted-graphics = "\
     libsdl \
     libsdl-dev \
     libx11-dev \
-    python-pygtk \
     gtk-theme-clearlooks \
     xdg-utils \
     epiphany \

@@ -144,6 +144,10 @@ class BBCooker:
         self.watcher.bbwatchedfiles = []
         self.notifier = pyinotify.Notifier(self.watcher, self.notifications)
 
+        # If being called by something like tinfoil, we need to clean cached data 
+        # which may now be invalid
+        bb.parse.__mtime_cache = {}
+        bb.parse.BBHandler.cached_statements = {}
 
         self.initConfigurationData()
 
@@ -197,13 +201,13 @@ class BBCooker:
     def config_notifications(self, event):
         if not event.pathname in self.configwatcher.bbwatchedfiles:
             return
-        if not event.path in self.inotify_modified_files:
-            self.inotify_modified_files.append(event.path)
+        if not event.pathname in self.inotify_modified_files:
+            self.inotify_modified_files.append(event.pathname)
         self.baseconfig_valid = False
 
     def notifications(self, event):
-        if not event.path in self.inotify_modified_files:
-            self.inotify_modified_files.append(event.path)
+        if not event.pathname in self.inotify_modified_files:
+            self.inotify_modified_files.append(event.pathname)
         self.parsecache_valid = False
 
     def add_filewatch(self, deps, watcher=None):
@@ -1505,6 +1509,8 @@ class BBCooker:
         # reload files for which we got notifications
         for p in self.inotify_modified_files:
             bb.parse.update_cache(p)
+            if p in bb.parse.BBHandler.cached_statements:
+                del bb.parse.BBHandler.cached_statements[p]
         self.inotify_modified_files = []
 
         if not self.baseconfig_valid:
@@ -2024,8 +2030,8 @@ class CookerParser(object):
             def init():
                 Parser.cfg = self.cfgdata
                 bb.utils.set_process_name(multiprocessing.current_process().name)
-                multiprocessing.util.Finalize(None, bb.codeparser.parser_cache_save, args=(self.cfgdata,), exitpriority=1)
-                multiprocessing.util.Finalize(None, bb.fetch.fetcher_parse_save, args=(self.cfgdata,), exitpriority=1)
+                multiprocessing.util.Finalize(None, bb.codeparser.parser_cache_save, exitpriority=1)
+                multiprocessing.util.Finalize(None, bb.fetch.fetcher_parse_save, exitpriority=1)
 
             self.feeder_quit = multiprocessing.Queue(maxsize=1)
             self.parser_quit = multiprocessing.Queue(maxsize=self.num_processes)
@@ -2079,8 +2085,8 @@ class CookerParser(object):
         sync = threading.Thread(target=self.bb_cache.sync)
         sync.start()
         multiprocessing.util.Finalize(None, sync.join, exitpriority=-100)
-        bb.codeparser.parser_cache_savemerge(self.cooker.data)
-        bb.fetch.fetcher_parse_done(self.cooker.data)
+        bb.codeparser.parser_cache_savemerge()
+        bb.fetch.fetcher_parse_done()
         if self.cooker.configuration.profile:
             profiles = []
             for i in self.process_names:

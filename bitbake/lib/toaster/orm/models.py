@@ -19,9 +19,12 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+from __future__ import unicode_literals
+
 from django.db import models, IntegrityError
 from django.db.models import F, Q, Avg, Max, Sum
 from django.utils import timezone
+from django.utils.encoding import force_bytes
 
 from django.core.urlresolvers import reverse
 
@@ -259,8 +262,10 @@ class Project(models.Model):
         """ Returns Queryset of all Layer_Versions which are compatible with
         this project"""
         queryset = Layer_Version.objects.filter(
-            (Q(up_branch__name=self.release.branch_name) & Q(build=None))
-            | Q(project=self))
+            (Q(up_branch__name=self.release.branch_name) &
+             Q(build=None) &
+             Q(project=None)) |
+             Q(project=self))
 
         return queryset
 
@@ -550,6 +555,8 @@ class BuildArtifact(models.Model):
 
         return self.file_name
 
+    def get_basename(self):
+        return os.path.basename(self.file_name)
 
     def is_available(self):
         return self.build.buildrequest.environment.has_artifact(self.file_name)
@@ -587,6 +594,12 @@ class Target_Image_File(models.Model):
     target = models.ForeignKey(Target)
     file_name = models.FilePathField(max_length=254)
     file_size = models.IntegerField()
+
+    @property
+    def suffix(self):
+        filename, suffix = os.path.splitext(self.file_name)
+        suffix = suffix.lstrip('.')
+        return suffix
 
 class Target_File(models.Model):
     ITYPE_REGULAR = 1
@@ -712,9 +725,23 @@ class Task(models.Model):
     work_directory = models.FilePathField(max_length=255, blank=True)
     script_type = models.IntegerField(choices=TASK_CODING, default=CODING_NA)
     line_number = models.IntegerField(default=0)
-    disk_io = models.IntegerField(null=True)
-    cpu_usage = models.DecimalField(max_digits=8, decimal_places=2, null=True)
+
+    # start/end times
+    started = models.DateTimeField(null=True)
+    ended = models.DateTimeField(null=True)
+
+    # in seconds; this is stored to enable sorting
     elapsed_time = models.DecimalField(max_digits=8, decimal_places=2, null=True)
+
+    # in bytes; note that disk_io is stored to enable sorting
+    disk_io = models.IntegerField(null=True)
+    disk_io_read = models.IntegerField(null=True)
+    disk_io_write = models.IntegerField(null=True)
+
+    # in seconds
+    cpu_time_user = models.DecimalField(max_digits=8, decimal_places=2, null=True)
+    cpu_time_system = models.DecimalField(max_digits=8, decimal_places=2, null=True)
+
     sstate_result = models.IntegerField(choices=SSTATE_RESULT, default=SSTATE_NA)
     message = models.CharField(max_length=240)
     logfile = models.FilePathField(max_length=255, blank=True)
@@ -1422,6 +1449,10 @@ class ProjectLayer(models.Model):
         unique_together = (("project", "layercommit"),)
 
 class CustomImageRecipe(Recipe):
+
+    # CustomImageRecipe's belong to layers called:
+    LAYER_NAME = "toaster-custom-images"
+
     search_allowed_fields = ['name']
     base_recipe = models.ForeignKey(Recipe, related_name='based_on_recipe')
     project = models.ForeignKey(Project)
@@ -1503,10 +1534,13 @@ class CustomImageRecipe(Recipe):
                 packages_conf += pkg.name+' '
 
         packages_conf += "\""
-
-        base_recipe = open("%s/%s" %
-                           (self.base_recipe.layer_version.dirpath,
-                            self.base_recipe.file_path), 'r').read()
+        try:
+            base_recipe = open("%s/%s" %
+                               (self.base_recipe.layer_version.dirpath,
+                                self.base_recipe.file_path), 'r').read()
+        except IOError:
+            # The path may now be the full path if the recipe has been built
+            base_recipe = open(self.base_recipe.file_path, 'r').read()
 
         # Add a special case for when the recipe we have based a custom image
         # recipe on requires another recipe.
@@ -1606,7 +1640,7 @@ class LogMessage(models.Model):
     lineno = models.IntegerField(null=True)
 
     def __str__(self):
-        return "%s %s %s" % (self.get_level_display(), self.message, self.build)
+        return force_bytes('%s %s %s' % (self.get_level_display(), self.message, self.build))
 
 def invalidate_cache(**kwargs):
     from django.core.cache import cache

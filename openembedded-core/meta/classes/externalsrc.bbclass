@@ -92,15 +92,13 @@ python () {
         d.appendVar('RM_WORK_EXCLUDE', ' ' + d.getVar('PN', True))
 
         # If B=S the same builddir is used even for different architectures.
-        # Thus, use a shared CONFIGURESTAMPFILE so that change of do_configure
-        # task hash is correctly detected if e.g. MACHINE changes. In addition,
-        # do_configure needs to depend on the stamp file so that the task is
-        # re-run when the stamp was changed since the last run on this
-        # architecture.
+        # Thus, use a shared CONFIGURESTAMPFILE and STAMP directory so that
+        # change of do_configure task hash is correctly detected and stamps are
+        # invalidated if e.g. MACHINE changes.
         if d.getVar('S', True) == d.getVar('B', True):
             configstamp = '${TMPDIR}/work-shared/${PN}/${EXTENDPE}${PV}-${PR}/configure.sstate'
             d.setVar('CONFIGURESTAMPFILE', configstamp)
-            d.setVarFlag('do_configure', 'file-checksums', configstamp + ':True')
+            d.setVar('STAMP', '${STAMPS_DIR}/work-shared/${PN}/${EXTENDPE}${PV}-${PR}')
 }
 
 python externalsrc_configure_prefunc() {
@@ -115,6 +113,7 @@ python externalsrc_configure_prefunc() {
                 # Link already exists, leave it if it points to the right location already
                 if os.readlink(lnkfile) == target:
                     continue
+                os.unlink(lnkfile)
             elif os.path.exists(lnkfile):
                 # File/dir exists with same name as link, just leave it alone
                 continue
