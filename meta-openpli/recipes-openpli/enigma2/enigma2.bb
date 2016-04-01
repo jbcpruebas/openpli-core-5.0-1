@@ -56,6 +56,7 @@ PYTHON_RDEPS = " \
 	python-xml \
 	python-zlib \
 	python-zopeinterface \
+	python-pycrypto \
 	"
 
 GST_BASE_RDEPS = "  \
