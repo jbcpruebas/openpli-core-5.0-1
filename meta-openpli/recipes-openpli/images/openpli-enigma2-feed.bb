@@ -52,6 +52,7 @@ OPTIONAL_PACKAGES += " \
 	python-ntplib \
 	python-requests \
 	python-mechanize \
+	python-pycrypto \	
 	python-lxml \
 	picocom \
 	ppp \
