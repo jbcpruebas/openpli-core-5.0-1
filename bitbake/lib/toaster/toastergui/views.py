@@ -45,6 +45,7 @@ from django.utils import formats
 from toastergui.templatetags.projecttags import json as jsonfilter
 from decimal import Decimal
 import json
+import os
 from os.path import dirname
 from functools import wraps
 import itertools
@@ -1875,6 +1876,7 @@ def managedcontextprocessor(request):
 import toastermain.settings
 
 from orm.models import Project, ProjectLayer, ProjectTarget, ProjectVariable
+from bldcontrol.models import  BuildEnvironment
 
 # we have a set of functions if we're in managed mode, or
 # a default "page not available" simple functions for interactive mode
@@ -2082,13 +2084,23 @@ if True:
 
         name = "_js_unit_test_prj_"
 
-        # If there is an existing project by this name delete it. We don't want
-        # Lots of duplicates cluttering up the projects.
+        # If there is an existing project by this name delete it.
+        # We don't want Lots of duplicates cluttering up the projects.
         Project.objects.filter(name=name).delete()
 
-        new_project = Project.objects.create_project(name=name, release=release)
+        new_project = Project.objects.create_project(name=name,
+                                                     release=release)
+        # Add a layer
+        layer = new_project.get_all_compatible_layer_versions().first()
 
-        context = { 'project' : new_project }
+        ProjectLayer.objects.get_or_create(layercommit=layer,
+                                           project=new_project)
+
+        # make sure we have a machine set for this project
+        ProjectVariable.objects.get_or_create(project=new_project,
+                                              name="MACHINE",
+                                              value="qemux86")
+        context = {'project': new_project}
         return render(request, "js-unit-tests.html", context)
 
     from django.views.decorators.csrf import csrf_exempt
@@ -2177,6 +2189,10 @@ if True:
             except ProjectVariable.DoesNotExist:
                 pass
             try:
+                return_data['dl_dir'] = ProjectVariable.objects.get(project = prj, name = "DL_DIR").value,
+            except ProjectVariable.DoesNotExist:
+                pass
+            try:
                 return_data['fstypes'] = ProjectVariable.objects.get(project = prj, name = "IMAGE_FSTYPES").value,
             except ProjectVariable.DoesNotExist:
                 pass
@@ -2186,6 +2202,10 @@ if True:
                 pass
             try:
                 return_data['package_classes'] = ProjectVariable.objects.get(project = prj, name = "PACKAGE_CLASSES").value,
+            except ProjectVariable.DoesNotExist:
+                pass
+            try:
+                return_data['sstate_dir'] = ProjectVariable.objects.get(project = prj, name = "SSTATE_DIR").value,
             except ProjectVariable.DoesNotExist:
                 pass
 
@@ -2538,6 +2558,60 @@ if True:
 
         return response
 
+    def _traverse_dependents(next_package_id, rev_deps, all_current_packages, tree_level=0):
+        """
+        Recurse through reverse dependency tree for next_package_id.
+        Limit the reverse dependency search to packages not already scanned,
+        that is, not already in rev_deps.
+        Limit the scan to a depth (tree_level) not exceeding the count of
+        all packages in the custom image, and if that depth is exceeded
+        return False, pop out of the recursion, and write a warning
+        to the log, but this is unlikely, suggesting a dependency loop
+        not caught by bitbake.
+        On return, the input/output arg rev_deps is appended with queryset
+        dictionary elements, annotated for use in the customimage template.
+        The list has unsorted, but unique elements.
+        """
+        max_dependency_tree_depth = all_current_packages.count()
+        if tree_level >= max_dependency_tree_depth:
+            logger.warning(
+                "The number of reverse dependencies "
+                "for this package exceeds " + max_dependency_tree_depth +
+                " and the remaining reverse dependencies will not be removed")
+            return True
+
+        package = CustomImagePackage.objects.get(id=next_package_id)
+        dependents = \
+            package.package_dependencies_target.annotate(
+                name=F('package__name'),
+                pk=F('package__pk'),
+                size=F('package__size'),
+            ).values("name", "pk", "size").exclude(
+                ~Q(pk__in=all_current_packages)
+            )
+
+        for pkg in dependents:
+            if pkg in rev_deps:
+                # already seen, skip dependent search
+                continue
+
+            rev_deps.append(pkg)
+            if (_traverse_dependents(
+                pkg["pk"], rev_deps, all_current_packages, tree_level+1)):
+                return True
+
+        return False
+
+    def _get_all_dependents(package_id, all_current_packages):
+        """
+        Returns sorted list of recursive reverse dependencies for package_id,
+        as a list of dictionary items, by recursing through dependency
+        relationships.
+        """
+        rev_deps = []
+        _traverse_dependents(package_id, rev_deps, all_current_packages)
+        rev_deps = sorted(rev_deps, key=lambda x: x["name"])
+        return rev_deps
 
     @xhr_response
     def xhr_customrecipe_packages(request, recipe_id, package_id):
@@ -2606,15 +2680,9 @@ if True:
                 )
 
                 # Reverse dependencies which are needed by packages that are
-                # in the image
-                reverse_deps = package.package_dependencies_target.annotate(
-                    name=F('package__name'),
-                    pk=F('package__pk'),
-                    size=F('package__size'),
-                ).values("name", "pk", "size").exclude(
-                    ~Q(pk__in=all_current_packages)
-                )
-
+                # in the image. Recursive search providing all dependents,
+                # not just immediate dependents.
+                reverse_deps = _get_all_dependents(package_id, all_current_packages)
                 total_size_deps = 0
                 total_size_reverse_deps = 0
 
@@ -2658,6 +2726,11 @@ if True:
 
             else:
                 recipe.appends_set.add(package)
+                # Make sure that package is not in the excludes set
+                try:
+                    recipe.excludes_set.remove(package)
+                except:
+                    pass
                 # Add the dependencies we think will be added to the recipe
                 # as a result of appending this package.
                 # TODO this should recurse down the entire deps tree
@@ -2668,11 +2741,12 @@ if True:
 
                         recipe.includes_set.add(cust_package)
                         try:
-                            # when adding the pre-requisite package make sure it's not in the
-                            #   excluded list from a prior removal.
+                            # When adding the pre-requisite package, make
+                            # sure it's not in the excluded list from a
+                            # prior removal.
                             recipe.excludes_set.remove(cust_package)
                         except Package.DoesNotExist:
-                            #   Don't care if the package had never been excluded
+                            # Don't care if the package had never been excluded
                             pass
                     except:
                         logger.warning("Could not add package's suggested"
@@ -2688,6 +2762,19 @@ if True:
                     recipe.excludes_set.add(package)
                 else:
                     recipe.appends_set.remove(package)
+                all_current_packages = recipe.get_all_packages()
+                reverse_deps_dictlist = _get_all_dependents(package.pk, all_current_packages)
+                ids = [entry['pk'] for entry in reverse_deps_dictlist]
+                reverse_deps = CustomImagePackage.objects.filter(id__in=ids)
+                for r in reverse_deps:
+                    try:
+                        if r.id in included_packages:
+                            recipe.excludes_set.add(r)
+                        else:
+                            recipe.appends_set.remove(r)
+                    except:
+                        pass
+
                 return {"error": "ok"}
             except CustomImageRecipe.DoesNotExist:
                 return {"error": "Tried to remove package that wasn't present"}
@@ -2728,9 +2815,9 @@ if True:
         }
 
         vars_blacklist  = {
-            'DL_DR','PARALLEL_MAKE','BB_NUMBER_THREADS','SSTATE_DIR',
+            'PARALLEL_MAKE','BB_NUMBER_THREADS',
             'BB_DISKMON_DIRS','BB_NUMBER_THREADS','CVS_PROXY_HOST','CVS_PROXY_PORT',
-            'DL_DIR','PARALLEL_MAKE','SSTATE_DIR','SSTATE_DIR','SSTATE_MIRRORS','TMPDIR',
+            'PARALLEL_MAKE','SSTATE_MIRRORS','TMPDIR',
             'all_proxy','ftp_proxy','http_proxy ','https_proxy'
             }
 
@@ -2768,6 +2855,19 @@ if True:
         except ProjectVariable.DoesNotExist:
             pass
         try:
+            if ProjectVariable.objects.get(project = prj, name = "DL_DIR").value == "${TOPDIR}/../downloads":
+                be = BuildEnvironment.objects.get(pk = str(1))
+                dl_dir = os.path.join(dirname(be.builddir), "downloads")
+                context['dl_dir'] =  dl_dir
+                pv, created = ProjectVariable.objects.get_or_create(project = prj, name = "DL_DIR")
+                pv.value = dl_dir
+                pv.save()
+            else:
+                context['dl_dir'] = ProjectVariable.objects.get(project = prj, name = "DL_DIR").value
+            context['dl_dir_defined'] = "1"
+        except ProjectVariable.DoesNotExist,BuildEnvironment.DoesNotExist:
+            pass
+        try:
             context['fstypes'] =  ProjectVariable.objects.get(project = prj, name = "IMAGE_FSTYPES").value
             context['fstypes_defined'] = "1"
         except ProjectVariable.DoesNotExist:
@@ -2781,6 +2881,19 @@ if True:
             context['package_classes'] =  ProjectVariable.objects.get(project = prj, name = "PACKAGE_CLASSES").value
             context['package_classes_defined'] = "1"
         except ProjectVariable.DoesNotExist:
+            pass
+        try:
+            if ProjectVariable.objects.get(project = prj, name = "SSTATE_DIR").value == "${TOPDIR}/../sstate-cache":
+                be = BuildEnvironment.objects.get(pk = str(1))
+                sstate_dir = os.path.join(dirname(be.builddir), "sstate-cache")
+                context['sstate_dir'] = sstate_dir
+                pv, created = ProjectVariable.objects.get_or_create(project = prj, name = "SSTATE_DIR")
+                pv.value = sstate_dir
+                pv.save()
+            else:
+                context['sstate_dir'] = ProjectVariable.objects.get(project = prj, name = "SSTATE_DIR").value
+            context['sstate_dir_defined'] = "1"
+        except ProjectVariable.DoesNotExist, BuildEnvironment.DoesNotExist:
             pass
 
         return context
