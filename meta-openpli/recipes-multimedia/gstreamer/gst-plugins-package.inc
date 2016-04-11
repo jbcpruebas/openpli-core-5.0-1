@@ -50,8 +50,6 @@ ALLOW_EMPTY_${PN}-staticdev = "1"
 PACKAGES += "${PN}-apps ${PN}-meta ${PN}-glib"
 FILES_${PN}-apps = "${bindir}"
 
-RDEPENDS_${PN}-apps += "perl"
-
 FILES_${PN} = ""
 FILES_${PN}-dbg += "${libdir}/gstreamer-${LIBV}/.debug"
 FILES_${PN}-glib = "${datadir}/glib-2.0"
