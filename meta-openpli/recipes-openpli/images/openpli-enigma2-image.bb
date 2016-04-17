@@ -87,6 +87,7 @@ IMAGE_INSTALL += " \
 	${@base_contains("MACHINE_FEATURES", "externalwifi", "${EXTERNAL_WIFI_DRIVERS}", "", d)} \
 	\
 	${@base_contains('OPENPLI_FEATURES', 'dvd', 'cdtextinfo', '', d)} \
+	${@base_contains('MACHINEBUILD', 'vg5000', 'enigma2-plugin-extensions-ciplushelper' , '', d)} \	
 	"
 
 export IMAGE_BASENAME = "openpli-enigma2"
