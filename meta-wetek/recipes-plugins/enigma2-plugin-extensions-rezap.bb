@@ -15,10 +15,10 @@ inherit autotools-brokensep pythonnative
 #SRCREV = "${AUTOREV}"
 #PV = "1.0+git${SRCPV}"
 #PKGV = "1.0+git${GITPKGV}"
-PV = "1.2"
+PV = "1.3"
 PKGV = "1.0"
 
-SRC_URI = "file://wetek-plugin-rezap-20160211.tgz"
+SRC_URI = "file://wetek-plugin-rezap-20160417.tgz"
 
 S = "${WORKDIR}/ReZap"
 
