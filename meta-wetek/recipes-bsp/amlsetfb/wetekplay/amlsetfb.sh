@@ -93,7 +93,7 @@ ln -sf /sys/class/leds/wetek\:blue\:ethled/brightness /dev/led1
 ln -sf /sys/class/leds/wetek\:blue\:wifiled/brightness /dev/led2
 
 # only once
-if [ ! -e /etc/.sdpart ]; then
+if [ ! -e /etc/.sdpart && ! -e /dev/system ]; then
 	SDPART=/dev/mmcblk0
 #	/usr/sbin/parted -s $SDPART unit MB mkpart primary ext4 820MB 90%
 	parted /dev/mmcblk0 unit MB mkpart primary ext4 1100MB 95%
