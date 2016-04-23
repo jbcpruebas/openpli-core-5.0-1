@@ -88,6 +88,14 @@ init: $(BBLAYERS) $(CONFFILES)
 
 image: init
 	@echo 'Building image for $(MACHINE)'
+	@. $(TOPDIR)/env.source && cd $(TOPDIR) && bitbake openpli-enigma2-image
+
+feed: init
+	@echo 'Building image for $(MACHINE)'
+	@. $(TOPDIR)/env.source && cd $(TOPDIR) && bitbake openpli-enigma2-feed
+
+full: init
+	@echo 'Building image for $(MACHINE)'
 	@. $(TOPDIR)/env.source && cd $(TOPDIR) && bitbake openpli-enigma2-image && bitbake openpli-enigma2-feed
 
 update:
