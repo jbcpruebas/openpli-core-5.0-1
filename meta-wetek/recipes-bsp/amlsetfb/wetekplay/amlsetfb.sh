@@ -93,27 +93,26 @@ ln -sf /sys/class/leds/wetek\:blue\:ethled/brightness /dev/led1
 ln -sf /sys/class/leds/wetek\:blue\:wifiled/brightness /dev/led2
 
 # only once
-if [ ! -e /etc/.sdpart && ! -e /dev/system ]; then
-	SDPART=/dev/mmcblk0
-#	/usr/sbin/parted -s $SDPART unit MB mkpart primary ext4 820MB 90%
+if [ ! -e /etc/.sdpart ] && [ ! -e /dev/system ]; then
 	parted /dev/mmcblk0 unit MB mkpart primary ext4 1100MB 95%
 	sync ; sync ;
-	/sbin/mkfs.ext4  -L EXTRAext4 /dev/mmcblk0p3
+	umount -f /dev/mmcblk0p3
+	/sbin/mkfs.ext4 -L mSD_Extra /dev/mmcblk0p3
+	umount -f /dev/mmcblk0p3
 	sync ; sync ;
-	tune2fs -c 5 -o journal_data_writeback ${SDPART}p3
-	tune2fs -o ^acl ${SDPART}p3
-	tune2fs -o ^user_xattr ${SDPART}p3
-	tune2fs -E  mount_opts=noatime  ${SDPART}p3
-#	tune2fs -E mount_opts=auto_da_alloc  ${SDPART}p3
-#	tune2fs -O ^has_journal  ${SDPART}p3
+	tune2fs -c 5 -o journal_data_writeback /dev/mmcblk0p3
+	tune2fs -o ^acl /dev/mmcblk0p3
+	tune2fs -o ^user_xattr /dev/mmcblk0p3
+	tune2fs -E  mount_opts=noatime  /dev/mmcblk0p3
+#	tune2fs -E mount_opts=auto_da_alloc  /dev/mmcblk0p3
+#	tune2fs -O ^has_journal  /dev/mmcblk0p3
 	/usr/sbin/partprobe 
 	sync ; sync ;
-	mkdir /media/uSDextra
-	mount -t ext4 -O noatime,nodiratime /dev/mmcblk0p3 /media/uSDextra
-	cd /media/uSDextra
+	mkdir /media/mSD_Extra
+	mount -t ext4 -O noatime,nodiratime /dev/mmcblk0p3 /media/mSD_Extra
+	cd /media/mSD_Extra
 	mkdir -m 777 movie
 	mkdir -m 777 timeshift
 	touch /etc/.sdpart
-	echo "/dev/mmcblk0p3  /media/uSDextra   ext4   defaults,noatime,discard   0  2" >> /etc/fstab
 fi
 
