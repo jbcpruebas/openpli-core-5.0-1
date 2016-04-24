@@ -74,6 +74,8 @@ OPTIONAL_PACKAGES += " \
 	xfsprogs \
 	zeroconf \
 	zip \
+	octagon-hbbtv \	
+	pli-plugins \
 	${OPTIONAL_BSP_PACKAGES} \
 	"
 
