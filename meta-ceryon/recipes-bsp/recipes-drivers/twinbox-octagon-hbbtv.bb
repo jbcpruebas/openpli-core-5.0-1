@@ -1,4 +1,4 @@
-DESCRIPTION = "octagon hbbtv"
+DESCRIPTION = "twinbox-octagon-hbbtv"
 LICENSE = "CLOSED"
 
 SRCREV = "${AUTOREV}"
@@ -18,15 +18,15 @@ ALLOW_EMPTY_${PN} = "1"
 S = "${WORKDIR}/git"
 DEPLOY_DIR = "${TMPDIR}/deploy"
 
-OCTAGON_HBBTV = " \
-	enigma2-plugin-extensions-hbbtv_2.0+git1644+aaaf944-r23_7100s.ipk \
+TWINBOX_OCTAGON_HBBTV = " \
+	enigma2-plugin-extensions-twinbox-hbbtv_2.0+git1644+aaaf944-r23_7100s.ipk \
 "
 
 do_install() {
 }
 python populate_packages_prepend () {
     p = ""
-    plugins = bb.data.getVar('OCTAGON_HBBTV', d, 1)
+    plugins = bb.data.getVar('TWINBOX_OCTAGON_HBBTV', d, 1)
 
     if plugins is not None:
         for package in plugins.split():
@@ -38,7 +38,7 @@ python populate_packages_prepend () {
 do_deploy() {
     install -d 0755 ${WORKDIR}/deploy-ipk/7100s
 
-    for i in ${OCTAGON_HBBTV}; do
+    for i in ${TWINBOX_OCTAGON_HBBTV}; do
         if [ -f $i ]; then
             install -m 0644 $i ${WORKDIR}/deploy-ipk/7100s;
             install -m 0644 $i ${DEPLOY_DIR}/ipk/7100s;
