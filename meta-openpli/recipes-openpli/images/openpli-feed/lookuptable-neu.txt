@@ -45,4 +45,5 @@ Xtrend 9500	et9500	Xtrend ET9500	/et9x00	/fullbackup_et9x00		-m 2048 -e 126976 -
 Octagon SF108 E2Hd	vg5000	Octagon SF108	/sf108	/fullbackup_sf108		-m 2048 -e 126976 -c 4096	-m 2048 -p 128KiB -s 2048	rootfs.bin	kernel.bin	noforce	MESSAGE
 Octagon SF3038 E2Hd	g300	Octagon SF3038	/sf3038	/fullbackup_sf3038		-m 2048 -e 126976 -c 8192	-m 2048 -p 128KiB	rootfs.bin	kernel.bin	noforce	MESSAGE
 Red Eagle 	7100S	RedEagle Twinboxlcd 	/redeagle/twinboxlcd	/fullbackup_twinboxlcd		-m 2048 -e 126976 -c 4096	-m 2048 -p 128KiB	rootfs.bin	kernel.bin	noforce	MESSAGE	
+Red Eagle 	7100S	RedEagle Singleboxlcd 	/redeagle/singleboxlcd	/fullbackup_singleboxlcd		-m 2048 -e 126976 -c 4096	-m 2048 -p 128KiB	rootfs.bin	kernel.bin	noforce	MESSAGE	
 BRAND AND MODEL	MODEL	SHOWNAME	FOLDER	EXTR1	EXTR2	MKUBIFS_ARGS	UBINIZE_ARGS	ROOTNAME	KERNELNAME	ACTION	MESSAGE
