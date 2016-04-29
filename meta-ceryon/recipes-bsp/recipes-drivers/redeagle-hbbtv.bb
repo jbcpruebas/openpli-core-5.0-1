@@ -19,7 +19,7 @@ S = "${WORKDIR}/git"
 DEPLOY_DIR = "${TMPDIR}/deploy"
 
 TWINBOX_OCTAGON_HBBTV = " \
-	enigma2-plugin-extensions-twinbox-hbbtv_2.0+git1644+aaaf944-r23_7100s.ipk \
+	enigma2-plugin-extensions-redeagle-hbbtv_2.0+git1644+aaaf944-r23_7100s.ipk \
 "
 
 do_install() {
