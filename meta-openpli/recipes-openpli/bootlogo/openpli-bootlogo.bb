@@ -86,6 +86,15 @@ do_install_append_7100s() {
         install -m 0755 ${S}/7100s/lcdcomplete220.bin ${DEPLOY_DIR_IMAGE}/7100s/lcdcomplete220.bin
 }
 
+do_install_append_7200s() {
+	mkdir -p ${DEPLOY_DIR_IMAGE}/7200s
+        install -m 0755 ${S}/7200s/splash.bin ${DEPLOY_DIR_IMAGE}/7200s/splash.bin    
+        install -m 0755 ${S}/7200s/lcdsplash220.bin ${DEPLOY_DIR_IMAGE}/7200s/lcdsplash220.bin
+        install -m 0755 ${S}/7200s/lcdwaitkey220.bin ${DEPLOY_DIR_IMAGE}/7200s/lcdwaitkey220.bin
+        install -m 0755 ${S}/7200s/lcdwarning220.bin ${DEPLOY_DIR_IMAGE}/7200s/lcdwarning220.bin
+        install -m 0755 ${S}/7200s/lcdcomplete220.bin ${DEPLOY_DIR_IMAGE}/7200s/lcdcomplete220.bin
+}
+
 do_install_append_ew7362() {
 	mkdir -p ${DEPLOY_DIR_IMAGE}/wwio
         install -m 0755 ${S}/wwio/splash.bin ${DEPLOY_DIR_IMAGE}/wwio/splash.bin   
