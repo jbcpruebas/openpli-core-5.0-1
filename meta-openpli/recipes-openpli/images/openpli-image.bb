@@ -39,14 +39,6 @@ IMAGE_FEATURES += "package-management"
 # of the installer that populates the rootfs. I wanted to call this
 # rootfs_remove_opkg_leftovers but that fails to parse.
 rootfsremoveopkgleftovers() {
-	if [ "${MACHINE}" = "g300" ]; then
-		cd ${IMAGE_ROOTFS}/usr/share/enigma2/
-		rm -rf display
-	fi
-	if [ "${MACHINE}" = "vg5000" ]; then
-		cd ${IMAGE_ROOTFS}/usr/share/enigma2/
-		rm -rf display
-	fi
 	if [ "${MACHINE}" = "7100s" ]; then
 		cd ${IMAGE_ROOTFS}/etc/opkg/	
 		rm -rf ${IMAGE_ROOTFS}/etc/opkg/3rd-party-7100s-feed.conf
