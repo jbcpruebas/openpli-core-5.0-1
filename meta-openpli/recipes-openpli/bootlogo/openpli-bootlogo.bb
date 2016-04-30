@@ -21,7 +21,7 @@ inherit update-rc.d
 SWITCHOFFMVI = "${@base_contains("MACHINE_FEATURES", "switchoff", "" , "switchoff.mvi", d)}"
 
 SRC_URI_append_7100s = "file://7100s/lcdsplash220.bin file://7100s/lcdwaitkey220.bin file://7100s/lcdwarning220.bin file://7100s/lcdcomplete220.bin file://7100s/splash.bin"
-SRC_URI_append_7100s = "file://7200s/lcdsplash220.bin file://7200s/lcdwaitkey220.bin file://7200s/lcdwarning220.bin file://7200s/lcdcomplete220.bin file://7200s/splash.bin"
+SRC_URI_append_7200s = "file://7200s/lcdsplash220.bin file://7200s/lcdwaitkey220.bin file://7200s/lcdwarning220.bin file://7200s/lcdcomplete220.bin file://7200s/splash.bin"
 SRC_URI_append_ew7362 = "file://wwio/splash.bin"
 
 SRC_URI_append_g300 = "file://octagon/splash.bin"
