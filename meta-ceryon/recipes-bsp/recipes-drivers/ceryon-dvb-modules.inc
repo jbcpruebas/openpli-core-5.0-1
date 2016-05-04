@@ -7,7 +7,7 @@ require conf/license/license-close.inc
 PV = "${KV}+${SRCDATE}"
 PR = "r0"
 
-SRC_URI = "http://source.mynonpublic.com/ceryon/ceryon-7100s-dvbdrive-20160428.zip"
+SRC_URI = "http://source.mynonpublic.com/ceryon/ceryon-7100s-dvbdrive-20160503.zip"
 
 S = "${WORKDIR}"
 
