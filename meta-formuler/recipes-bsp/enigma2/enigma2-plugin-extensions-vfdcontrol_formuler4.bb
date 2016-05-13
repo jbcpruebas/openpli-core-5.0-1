@@ -1,7 +1,7 @@
 DESCRIPTION = "VFD Control"
 LICENSE = "GPLv2"
 
-require conf/license/openpli-gplv2.inc
+require conf/license/formuler-gplv2.inc
 
 SRC_URI = "file://__init__.py \
 	file://plugin.py \
@@ -10,11 +10,11 @@ SRC_URI = "file://__init__.py \
 "
 
 S = "${WORKDIR}"
-DEST = "${D}/usr/lib/enigma2/python/Plugins/SystemPlugins/VfdControl"
+DEST = "${D}/usr/lib/enigma2/python/Plugins/Extensions/VfdControl"
 
-PR = "r1"
+PR = "r0"
 
-FILES_${PN} = "/usr/lib/enigma2/python/Plugins/SystemPlugins/VfdControl"
+FILES_${PN} = "/usr/lib/enigma2/python/Plugins/Extensions/VfdControl"
 
 inherit autotools pkgconfig
 

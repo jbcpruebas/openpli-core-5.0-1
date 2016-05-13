@@ -1,12 +1,12 @@
 KV = "4.1.21"
-SRCDATE = "20160408"
+SRCDATE = "20160427"
 GCC = "4.9.1"
 
 require xpeedc-dvb-modules.inc
 
 SRC_URI = "http://xpeedlxclass.eu/${MACHINE}-drivers-${KV}-${GCC}-${SRCDATE}.zip"
 
-SRC_URI[md5sum] = "c5c976fc9707b45296b2b25644460636"
-SRC_URI[sha256sum] = "460b6b8d1e915e5b4cacbd6f0662c24b856193e233a4db5eb4573527c133c46b"
+SRC_URI[md5sum] = "5784bdd28d814923d5fdfc6215772954"
+SRC_URI[sha256sum] = "4871adcfc28698210a6bc187717c263f375408bcee9eeca80c716d771fd63b0b"
 
 COMPATIBLE_MACHINE = "xpeedc"
