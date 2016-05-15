@@ -1,6 +1,6 @@
 LICENSE = "CLOSED"
 require conf/license/license-close.inc
-
+SRCREV = "${AUTOREV}"
 PV = "1.0+git${SRCPV}"
 PKGV = "1.0+git${GITPKGV}"
 PR = "r1"

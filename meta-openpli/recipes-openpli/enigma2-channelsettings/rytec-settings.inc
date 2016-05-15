@@ -1,7 +1,7 @@
 DESCRIPTION = "Rytec settings ${SATNAMES}"
 MAINTAINER ?= "Mike Looijmans"
 LICENSE = "CLOSED"
-
+SRCREV = "${AUTOREV}"
 PR = "r1"
 
 RYTECSETTINGS_SRCDATE = "20120614"
