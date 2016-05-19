@@ -10,7 +10,6 @@ SRC_URI = "git://git.videolan.org/libbluray.git;branch=master;protocol=git"
 SRCREV="eefd7c6a192b5243ec9b25676944fcb87cfa3c2e"
 
 inherit gitpkgv autotools-brokensep pkgconfig
-
 PV = "v0.9.3+git${SRCPV}"
 PKGV = "v0.9.3+git${GITPKGV}"
 
@@ -25,3 +24,6 @@ EXTRA_OECONF = " \
     --without-freetype \
     --without-fontconfig \
 "
+
+do_package_qa() {
+}
