@@ -19,6 +19,7 @@ python do_package_prepend () {
         ('et10000', 'et10000.jpg', 'et8000.png'),
         ('xp1000', 'xp1000.jpg', 'xp_rc14_normal.png'),
         ('osmini', 'osmini.jpg', 'osmini.png'),
+        ('osminiplus', 'osminiplus.jpg', 'osmini.png'),
         ('vuduo', 'duo.jpg', 'vu_normal.png'),
         ('vusolo', 'solo.jpg', 'vu_normal.png'),
         ('vusolo2', 'solo2.jpg', 'vu_normal.png'),
@@ -33,6 +34,7 @@ python do_package_prepend () {
         ('fusionhd', 'fusionhd.jpg', 'fusionhd.png'),
         ('fusionhdse', 'fusionhdse.jpg', 'fusionhdse.png'),
         ('wetekplay', 'wetekplay.jpg', 'wetekplay.png'),
+        ('xpeedc', 'xpeedlx.jpg', 'xpeedlx.png'),
     ]
     import os
     top = '${D}${PLUGINPATH}/public/images/'
@@ -47,6 +49,8 @@ python do_package_prepend () {
                 exception = 'et6500'
             elif x[0] == 'et7x00':
                 exception = 'et7500'
+            elif x[0] == 'xpeedc':
+                exception = 'xpeedlx'
             elif x[0] == 'dm8000':
                 dir = '${D}${PLUGINPATH}/public/static/remotes'
                 os.system('cp %s/dmm1.html %s/dmm.html' % (dir, dir))
