@@ -14,7 +14,7 @@ PR = "r3"
 BRANCH = "3.2"
 SRCREV = "${AUTOREV}"
 
-SRC_URI = "git://github.com/opendreambox/enigma2-skins.git;protocol=git;branch=${BRANCH}
+SRC_URI = "git://github.com/opendreambox/enigma2-skins.git;protocol=git;branch=${BRANCH}"
 
 #include examples of openpli widgets
 SRC_URI_append = " \
