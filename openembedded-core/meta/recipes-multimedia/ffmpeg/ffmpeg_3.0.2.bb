@@ -15,8 +15,8 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
 
 SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz"
 
-SRC_URI[md5sum] = "ef9b6634bb7c920efc940b4d55adf7b2"
-SRC_URI[sha256sum] = "12f32cee41c74435f608c30793fd616bdf53467bb513278e273e135a4c58e470"
+SRC_URI[md5sum] = "beb5c69c671aba1386e7156fc2af1ab6"
+SRC_URI[sha256sum] = "82943cc7b0c4d14b612404de0dd7b24cd8ca3511d51e4fd3ae36b2d71bb95223"
 
 # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
 ARM_INSTRUCTION_SET = "arm"
@@ -29,21 +29,9 @@ DEPENDS = "alsa-lib zlib libogg yasm-native"
 
 inherit autotools pkgconfig
 
-PACKAGECONFIG ??= "avdevice avfilter avcodec avformat swresample swscale postproc \
-                   bzlib gpl lzma theora x264 \
-                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xv', '', d)}"
-
-# libraries to build in addition to avutil
+PACKAGECONFIG ??= "avdevice avfilter bzlib gpl lzma theora x264 ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xv', '', d)}"
 PACKAGECONFIG[avdevice] = "--enable-avdevice,--disable-avdevice"
 PACKAGECONFIG[avfilter] = "--enable-avfilter,--disable-avfilter"
-PACKAGECONFIG[avcodec] = "--enable-avcodec,--disable-avcodec"
-PACKAGECONFIG[avformat] = "--enable-avformat,--disable-avformat"
-PACKAGECONFIG[swresample] = "--enable-swresample,--disable-swresample"
-PACKAGECONFIG[swscale] = "--enable-swscale,--disable-swscale"
-PACKAGECONFIG[postproc] = "--enable-postproc,--disable-postproc"
-PACKAGECONFIG[avresample] = "--enable-avresample,--disable-avresample"
-
-# features to support
 PACKAGECONFIG[bzlib] = "--enable-bzlib,--disable-bzlib,bzip2"
 PACKAGECONFIG[faac] = "--enable-libfaac,--disable-libfaac,faac"
 PACKAGECONFIG[gpl] = "--enable-gpl,--disable-gpl"
@@ -92,18 +80,7 @@ do_configure() {
     ${S}/configure ${EXTRA_OECONF}
 }
 
-PACKAGES_DYNAMIC += "^lib(av(codec|device|filter|format|util|resample)|swscale|swresample|postproc).*"
-
-# ffmpeg disables PIC on some platforms (e.g. x86-32)
-INSANE_SKIP_${MLPREFIX}libavcodec = "textrel"
-INSANE_SKIP_${MLPREFIX}libavdevice = "textrel"
-INSANE_SKIP_${MLPREFIX}libavfilter = "textrel"
-INSANE_SKIP_${MLPREFIX}libavformat = "textrel"
-INSANE_SKIP_${MLPREFIX}libavutil = "textrel"
-INSANE_SKIP_${MLPREFIX}libavresample = "textrel"
-INSANE_SKIP_${MLPREFIX}libswscale = "textrel"
-INSANE_SKIP_${MLPREFIX}libswresample = "textrel"
-INSANE_SKIP_${MLPREFIX}libpostproc = "textrel"
+PACKAGES_DYNAMIC += "^lib(av(codec|device|filter|format|util)|swscale).*"
 
 python populate_packages_prepend() {
     av_libdir = d.expand('${libdir}')
