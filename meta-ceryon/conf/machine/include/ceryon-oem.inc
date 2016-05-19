@@ -69,6 +69,9 @@ DEFAULTTUNE = "mips32el"
 
 PREFERRED_PROVIDER_virtual/kernel = "linux-ceryon"
 
+PREFERRED_PROVIDER_virtual/blindscan-dvbs = "ceryon-blindscan-utils"
+PREFERRED_PROVIDER_virtual/blindscan-dvbc = "ceryon-blindscan-utils"
+
 PREFERRED_VERSION_linux-ceryon = "4.0.1"
 PREFERRED_VERSION_linux-libc-headers = "4.0"
 
