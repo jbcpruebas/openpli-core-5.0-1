@@ -1,7 +1,7 @@
 # We know about rtc
 include conf/machine/include/build-extras.inc
 
-PREFERRED_VERSION_linux-broadmedia = "4.1.15"
+PREFERRED_VERSION_linux-broadmedia = "4.1.24"
 PREFERRED_VERSION_linux-libc-headers = "4.1"
 
 BRAND_OEM = "broadmedia"
@@ -9,21 +9,25 @@ BRAND_OEM = "broadmedia"
 MACHINE_NAME = "\
 ${@base_contains('MACHINEBUILD', 'mbtwinplus', 'Premium Twin Plus' , '', d)}\
 ${@base_contains('MACHINEBUILD', 'sf3038', 'SF3038' , '', d)}\
+${@base_contains('MACHINEBUILD', 'sf128-sf138', 'E2 HD' , '', d)}\
 "
 
 MACHINE_BRAND = "\
 ${@base_contains('MACHINEBUILD', 'mbtwinplus', 'Miraclebox' , '', d)}\
 ${@base_contains('MACHINEBUILD', 'sf3038', 'Octagon' , '', d)}\
+${@base_contains('MACHINEBUILD', 'sf128-sf138', 'Octagon' , '', d)}\
 "
 
 IMAGEDIR ?= "\
 ${@base_contains('MACHINEBUILD', 'mbtwinplus', 'miraclebox/twinplus' , '', d)}\
 ${@base_contains('MACHINEBUILD', 'sf3038', 'sf3038' , '', d)}\
+${@base_contains('MACHINEBUILD', 'sf128-sf138', 'sf128-sf138' , '', d)}\
 "
 
 MACHINE_DRIVER = "\
 ${@base_contains('MACHINEBUILD', 'mbtwinplus', 'twinplus' , '', d)}\
 ${@base_contains('MACHINEBUILD', 'sf3038', 'sf3038' , '', d)}\
+${@base_contains('MACHINEBUILD', 'sf128-sf138', 'g100' , '', d)}\
 "
 
 MTD_KERNEL = "mtd1"
@@ -48,7 +52,9 @@ MACHINE_EXTRA_RRECOMMENDS = " \
 
 include conf/machine/include/autoload-filesystems.inc
 
-DVBMEDIASINK_CONFIG = "--with-wma --with-wmv --with-pcm --with-dts --with-eac3"
+DVBMEDIASINK_CONFIG = "--with-wma --with-wmv --with-pcm --with-dts --with-eac3 \
+    ${@base_contains('MACHINE', 'g100', ' --with-h265' , '', d)} \
+"
 
 TARGET_ARCH = "mipsel"
 DEFAULTTUNE = "mips32el"

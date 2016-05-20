@@ -5,9 +5,9 @@ LICENSE = "CLOSED"
 require conf/license/license-close.inc
 
 PV = "${KV}+${SRCDATE}"
-PR = "r0"
+PR = "r1"
 
-SRC_URI = "http://source.mynonpublic.com/ceryon/ceryon-7100s-dvbdrive-20160503.zip"
+SRC_URI = "http://source.mynonpublic.com/ceryon/ceryon-7100s-dvbdrive-20160520.zip"
 
 S = "${WORKDIR}"
 

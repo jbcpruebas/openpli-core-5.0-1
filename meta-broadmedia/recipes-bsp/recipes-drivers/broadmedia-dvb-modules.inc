@@ -6,9 +6,9 @@ require conf/license/license-close.inc
 PACKAGE_ARCH = "${MACHINE}"
 
 PV = "${KV}+${SRCDATE}"
-PR = "r3"
+PR = "r4"
 
-SRC_URI = "http://source.mynonpublic.com/broadmedia/sf3038-drivers-4.1.15-5.3.0-20160427.zip"
+SRC_URI = "http://source.mynonpublic.com/broadmedia/sf3038-drivers-4.1.24-5.3.0-20160520.zip"
 
 S = "${WORKDIR}"
 
