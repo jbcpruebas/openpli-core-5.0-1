@@ -39,6 +39,7 @@ BBLAYERS ?= \
 	$(CURDIR)/meta-edision \
         $(CURDIR)/meta-miraclebox \
       	$(CURDIR)/meta-spycat \
+	$(CURDIR)/meta-gi \
 	$(CURDIR)/meta-local \
 	$(CURDIR)/meta-tripledot 
 
