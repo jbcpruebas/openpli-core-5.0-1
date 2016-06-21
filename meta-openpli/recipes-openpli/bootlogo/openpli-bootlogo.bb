@@ -98,7 +98,7 @@ do_install_append_7200s() {
         install -m 0755 ${S}/7200s/lcdcomplete220.bin ${DEPLOY_DIR_IMAGE}/7200s/lcdcomplete220.bin
 }
 
-do_install_append_7200s() {
+do_install_append_7400s() {
 	mkdir -p ${DEPLOY_DIR_IMAGE}/7400s
         install -m 0755 ${S}/7400s/splash.bin ${DEPLOY_DIR_IMAGE}/7400s/splash.bin    
 }
