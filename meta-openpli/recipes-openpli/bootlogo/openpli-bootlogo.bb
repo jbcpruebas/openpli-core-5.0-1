@@ -22,6 +22,9 @@ SWITCHOFFMVI = "${@base_contains("MACHINE_FEATURES", "switchoff", "" , "switchof
 
 SRC_URI_append_7100s = "file://7100s/lcdsplash220.bin file://7100s/lcdwaitkey220.bin file://7100s/lcdwarning220.bin file://7100s/lcdcomplete220.bin file://7100s/splash.bin"
 SRC_URI_append_7200s = "file://7200s/lcdsplash220.bin file://7200s/lcdwaitkey220.bin file://7200s/lcdwarning220.bin file://7200s/lcdcomplete220.bin file://7200s/splash.bin"
+
+SRC_URI_append_7400s = "file://7400s/splash.bin"
+
 SRC_URI_append_ew7362 = "file://wwio/splash.bin"
 
 SRC_URI_append_g300 = "file://octagon/splash.bin"
@@ -93,6 +96,11 @@ do_install_append_7200s() {
         install -m 0755 ${S}/7200s/lcdwaitkey220.bin ${DEPLOY_DIR_IMAGE}/7200s/lcdwaitkey220.bin
         install -m 0755 ${S}/7200s/lcdwarning220.bin ${DEPLOY_DIR_IMAGE}/7200s/lcdwarning220.bin
         install -m 0755 ${S}/7200s/lcdcomplete220.bin ${DEPLOY_DIR_IMAGE}/7200s/lcdcomplete220.bin
+}
+
+do_install_append_7200s() {
+	mkdir -p ${DEPLOY_DIR_IMAGE}/7400s
+        install -m 0755 ${S}/7400s/splash.bin ${DEPLOY_DIR_IMAGE}/7400s/splash.bin    
 }
 
 do_install_append_ew7362() {
