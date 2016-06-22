@@ -77,6 +77,7 @@ OPTIONAL_PACKAGES += " \
 	zeroconf \
 	zip \
 	${OPTIONAL_BSP_PACKAGES} \
+   	librtmp \
 	"
 
 OPTIONAL_BSP_ENIGMA2_PACKAGES ?= ""
