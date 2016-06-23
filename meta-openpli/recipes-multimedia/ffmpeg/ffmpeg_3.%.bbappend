@@ -227,6 +227,7 @@ EXTRA_FFCONF = " \
     --disable-mipsdsp \
     --disable-mipsdspr2 \
     --disable-mipsdsp \
+    --disable-mipsfpu \
     --disable-indevs \
     --disable-outdevs \
     --enable-bzlib \
