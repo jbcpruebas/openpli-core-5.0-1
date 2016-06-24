@@ -8,7 +8,7 @@ PACKAGE_ARCH = "${MACHINE}"
 PV = "${KV}+${SRCDATE}"
 PR = "r4"
 
-SRC_URI = "http://source.mynonpublic.com/broadmedia/sf3038-drivers-4.1.24-5.3.0-20160610.zip"
+SRC_URI = "http://source.mynonpublic.com/broadmedia/sf3038-drivers-4.1.24-5.3.0-20160624.zip"
 
 S = "${WORKDIR}"
 
