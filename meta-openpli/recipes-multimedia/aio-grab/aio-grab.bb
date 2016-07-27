@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
 
 DEPENDS = "jpeg libpng zlib"
 
-SRCREV = "e2cf98d67d4a5238a999c7f69e3106bd7c07552f"
+SRCREV = "12c0ba80062ce7ddcd7c179898f6762e520a3c88"
 
 inherit gitpkgv
 
